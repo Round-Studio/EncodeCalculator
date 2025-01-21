@@ -1,0 +1,1 @@
+# Round.NET.AvaloniaApp.EncodeCalculator
