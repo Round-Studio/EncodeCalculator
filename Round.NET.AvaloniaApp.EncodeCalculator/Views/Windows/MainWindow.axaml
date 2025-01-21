@@ -1,0 +1,15 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:Round.NET.AvaloniaApp.EncodeCalculator.Views"
+        xmlns:pages="clr-namespace:Round.NET.AvaloniaApp.EncodeCalculator.Views.Pages"
+        mc:Ignorable="d"
+        Width="1260"
+        Height="770"
+        WindowStartupLocation="CenterScreen"
+        x:Class="Round.NET.AvaloniaApp.EncodeCalculator.Views.MainWindow"
+        Icon="/Assets/Icon.ico"
+        Title="REC - 可编码计算器">
+        <pages:LoadPage />
+</Window>
