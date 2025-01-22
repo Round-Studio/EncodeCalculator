@@ -6,7 +6,7 @@ public class Deduplication
     {
         foreach (var item in ItemMange.Items)
         {
-            if (item.Config.Name == Name)
+            if (item.Name == Name)
             {
                 return true;
             }

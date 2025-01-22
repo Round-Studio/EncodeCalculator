@@ -9,14 +9,36 @@ namespace Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage;
 
 public class ItemMange
 {
-    public static List<UnitItem> Items = new List<UnitItem>();
+    public static List<RootConfig> Items = new List<RootConfig>();
     public static ListBox ItemListBox { get; set; }
 
     public class RootConfig
     {
-        public string Value { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
-        public string UUID { get; set; } = string.Empty;
+        public string Value
+        {
+            get
+            {
+                return Item.ValueBox.Text;
+            }
+            set
+            {
+                Item.ValueBox.Text = value;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return Item.NameBox.Content.ToString();
+            }
+            set
+            {
+                Item.NameBox.Content = value;
+            }
+        }
+        public UnitItem Item { get; set; } = new UnitItem();
+        public string UUID { get; set; }
         public int Type { get; set; } = 0;
         public bool IsMain { get; set; } = false;
     }
@@ -26,10 +48,13 @@ public class ItemMange
         if (!Deduplication.DeduplicationItem(config.Name))
         {
             var Guid = new Guid();
-            var it = new UnitItem(config);
-            it.Config.UUID = Guid.NewGuid().ToString();
-            Items.Add(it);
-            ItemListBox.Items.Add(it);
+            config.UUID = Guid.NewGuid().ToString();
+            config.Item.uuid = config.UUID;
+            Items.Add(config);
+            config.Item.NameBox.Content = config.Name;
+            config.Item.IsMain = config.IsMain;
+            config.Item.ValueBox.Text = config.Value;
+            ItemListBox.Items.Add(config.Item);
         }
         else
         {
@@ -45,13 +70,30 @@ public class ItemMange
         }
     }
 
+    public static void ClearItems()
+    {
+        Items.Clear();
+        ItemListBox.Items.Clear();
+    }
+
+    public static UnitItem GetItem(string uuid)
+    {
+        foreach (var item in Items)
+        {
+            if (item.UUID == uuid)
+            {
+                return item.Item;
+            }
+        }
+        return null;
+    }
     public static string GetValueForName(string name)
     {
         foreach (var it in Items)
         {
-            if (it.NameBox.Content.ToString() == name)
+            if (it.Name == name)
             {
-                return it.ValueBox.Text.ToString();
+                return it.Value;
             }
         }
         return String.Empty;
@@ -60,9 +102,9 @@ public class ItemMange
     {
         foreach (var it in Items)
         {
-            if (it.Config.UUID == uuid)
+            if (it.UUID == uuid)
             {
-                return it.ValueBox.Text.ToString();
+                return it.Value;
             }
         }
         return String.Empty;
@@ -72,12 +114,35 @@ public class ItemMange
     {
         foreach (var it in Items)
         {
-            if (it.Config.UUID == uuid)
+            if (it.UUID == uuid)
             {
-                ItemListBox.Items.Remove(it);
+                ItemListBox.Items.Remove(it.Item);
                 Items.Remove(it);
                 break;
             }
         }
+    }
+
+    public static void SetNameForUUID(string uuid, string name)
+    {
+        foreach(var item in Items)
+        {
+            if (item.UUID == uuid)
+            {
+                item.Name = name;
+            }
+        }
+    }
+
+    public static string GetNameForUUID(string uuid)
+    {
+        foreach(var item in Items)
+        {
+            if (item.UUID == uuid)
+            {
+                return item.Name;
+            }
+        }
+        return String.Empty;
     }
 }

@@ -4,27 +4,27 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using FluentAvalonia.UI.Controls;
+using Round.NET.AvaloniaApp.EncodeCalculator.Models;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage;
 
 namespace Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls;
 
 public partial class EditItem : UserControl
 {
-    public ItemMange.RootConfig Config;
     private bool Chang = false;
     public ContentDialog ContentDialog;
-    public EditItem(ItemMange.RootConfig Config)
+    public UnitItem UnitItem;
+    public EditItem(string uuid)
     {
-        this.Config = Config;
         InitializeComponent();
-
-        if (Config.IsMain)
+        UnitItem = ItemMange.GetItem(uuid);
+        if (this.UnitItem.IsMain)
         {
             NameBox.IsEnabled = false;
             DeleteItem.IsEnabled = false;
         }
-        NameBox.Text = Config.Name;
-        ValueBox.Text = Config.Value;
+        NameBox.Text = this.UnitItem.Name;
+        ValueBox.Text = this.UnitItem.Value;
         Chang = true;
     }
 
@@ -32,7 +32,7 @@ public partial class EditItem : UserControl
     {
         if (Chang)
         {
-            Config.Value = ValueBox.Text;   
+            this.UnitItem.Value = ValueBox.Text;   
         }
     }
 
@@ -40,13 +40,14 @@ public partial class EditItem : UserControl
     {
         if (Chang)
         {
-            Config.Name = NameBox.Text; 
+            this.UnitItem.Name = NameBox.Text; 
         }
     }
 
     private void DeleteItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        ItemMange.DeleteItemForUUID(Config.UUID);
+        ItemMange.DeleteItemForUUID(this.UnitItem.uuid);
+        Core.ModifyTheStatus = true;
         ContentDialog.Hide();
     }
 }

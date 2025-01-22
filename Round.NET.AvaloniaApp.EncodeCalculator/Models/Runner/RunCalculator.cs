@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Avalonia.Threading;
 using EncodeCalculator.SuffixExpressionsCalculating;
-using FluentAvalonia.UI.Controls;
 
 namespace Round.NET.AvaloniaApp.EncodeCalculator.Models.Runner;
 
@@ -12,27 +10,25 @@ public class RunCalculator
     private static string AlgorithmicProcess = "";
     public static void Run()
     {
-        try
+        TheNumberOfRecursions = 0;//计算前清零递归次数
+        AlgorithmicProcess = "";
+        var Formula = GetFormula(ItemManage.ItemMange.GetValueForName("Main"));//获取计算表达式
+
+        if (Formula == null)
         {
-            TheNumberOfRecursions = 0;//计算前清零递归次数
-            AlgorithmicProcess = "";
-            var Formula = GetFormula(ItemManage.ItemMange.GetValueForName("Main"));//获取计算表达式
-            Core.OutBox.Text = $"算式：{Formula}";
-            Console.Write(Formula);//调试输出
-            double result = FourCalculations.Compute(Formula);//计算
-            Console.WriteLine($"={result}");//临时输出
-            Core.OutBox.Text+=$"\n结果：{result}";
+            throw new Exception("表达式中使用了死循环递归！");
         }
-        catch (Exception ex) {
-            Console.WriteLine($"{ex.Message}");
-        }
+
+        double result = FourCalculations.Compute(Formula);//计算
+        var outresult = $"算式：{Formula}\n结果：{result}";
+        Core.SetOutBoxText(outresult);
     }
 
     public static bool DetermineWhetherAFunctionExists(string expression)//查找是否剩余函数
     {
         foreach (var Item in ItemManage.ItemMange.Items)
         {
-            if (expression.Contains($"{Item.Config.Name}()"))
+            if (expression.Contains($"{Item.Name}()"))
             {
                 return true;
             }
@@ -45,11 +41,25 @@ public class RunCalculator
         
         foreach (var Item in ItemManage.ItemMange.Items)
         {
-            result = ReplaceFunction(result, Item.Config.Name, () => Item.ValueBox.Text); //取替换结果
+            var fors = ReplaceFunction(result, Item.Name, () => Item.Value); //取替换结果
+            if (fors != null)
+            {
+                result = fors;
+            }
+            else
+            {
+                return null;
+            }
         }
         
         if (DetermineWhetherAFunctionExists(result))
         {
+            var res = GetFormula(result);
+            if (res == null)
+            {
+                return null;
+            }
+            
             return GetFormula(result);//返回，true为有剩余，false为没有剩余
         }
         return result;//返回
@@ -58,15 +68,6 @@ public class RunCalculator
     {
         if (TheNumberOfRecursions > 100)//判断递归次数
         {
-            Dispatcher.UIThread.Invoke(() =>
-            {
-                var Show = new ContentDialog();
-                Show.Title = "运行错误";
-                Show.Content = $"发生死亡性运行错误！\n请不要在你的表达式中使用死循环递归！";
-                Show.CloseButtonText = "确定";
-                Show.DefaultButton = ContentDialogButton.Close;
-                Show.ShowAsync(Core.MainWindow);
-            });
             return string.Empty;
         }
         else

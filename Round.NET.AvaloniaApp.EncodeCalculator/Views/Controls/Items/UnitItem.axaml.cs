@@ -5,6 +5,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
+using ReactiveUI;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage;
 
@@ -12,13 +13,35 @@ namespace Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls;
 
 public partial class UnitItem : UserControl
 {
-    public ItemMange.RootConfig Config;
-    public UnitItem(ItemMange.RootConfig config)
+    public string uuid { get; set; }
+
+    public string Name
+    {
+        get
+        {
+            return NameBox.Content.ToString();
+        }
+        set
+        {
+            NameBox.Content = value;
+        }
+    }
+    public string Value
+    {
+        get
+        {
+            return ValueBox.Text.ToString();
+        }
+        set
+        {
+            ValueBox.Text = value;
+        }
+    }
+    public bool IsMain { get; set; } = false;
+
+    public UnitItem()
     {
         InitializeComponent();
-        this.Config = config;
-        ValueBox.Text = config.Value;
-        NameBox.Content = config.Name;
     }
 
     private void MoreButton_OnClick(object? sender, RoutedEventArgs e)
@@ -26,7 +49,7 @@ public partial class UnitItem : UserControl
         Dispatcher.UIThread.Invoke(() =>
         {
             var Show = new ContentDialog();
-            var Edit = new EditItem(Config);
+            var Edit = new EditItem(uuid);
             Edit.ContentDialog = Show;
             Show.Title = "编辑项";
             Show.CloseButtonText = "确定";
@@ -35,9 +58,10 @@ public partial class UnitItem : UserControl
             Show.DefaultButton = ContentDialogButton.Close;
             Show.CloseButtonClick += (_, __) =>
             {
-                this.Config = Edit.Config;
-                ValueBox.Text = this.Config.Value;
-                NameBox.Content = this.Config.Name;
+                ValueBox.Text = Edit.ValueBox.Text;
+                NameBox.Content = Edit.NameBox.Text;
+                
+                Core.ModifyTheStatus = true;
             };
             Show.ShowAsync(Core.MainWindow);
         });
@@ -45,6 +69,7 @@ public partial class UnitItem : UserControl
 
     private void ValueBox_OnTextChanging(object? sender, TextChangingEventArgs e)
     {
-        Config.Value = ValueBox.Text;
+        Value = ValueBox.Text;
+        Core.ModifyTheStatus = true;
     }
 }
