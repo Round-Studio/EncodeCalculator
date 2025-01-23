@@ -21,3 +21,32 @@ jobs:
 
     - name: 构建
       run: dotnet build --configuration Release
+
+    - name: 打包输出目录
+      run: |
+        $sourceDir = "./Round.NET.AvaloniaApp.EncodeCalculator.Desktop/bin/Release"
+        $zipFile = "./release-artifact.zip"
+        if (Test-Path $zipFile) { Remove-Item $zipFile }  # 如果文件已存在，先删除
+        Compress-Archive -Path $sourceDir -DestinationPath $zipFile
+      shell: pwsh
+
+    - name: 创建并发布 Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref_name }}  # 使用分支名或自定义版本号
+        release_name: Release ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+
+    - name: 上传打包文件到 Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}  # 从创建 Release 的步骤获取上传 URL
+        asset_path: ./release-artifact.zip  # 打包后的文件路径
+        asset_name: release-artifact.zip  # 上传后的文件名
+        asset_content_type: application/zip
