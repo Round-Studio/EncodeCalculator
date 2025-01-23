@@ -19,7 +19,7 @@ namespace EncodeCalculator.SuffixExpressionsCalculating
         /// <param name="cp">计算过程类</param>
         public FourCalculations(CalculationProcess cp) {
             if (cp == null) ArgumentNullException.ThrowIfNull(cp);
-            cp = cp;
+            this.cp = cp;
         }
 
         public FourCalculations() { cp = new CalculationProcess(); }

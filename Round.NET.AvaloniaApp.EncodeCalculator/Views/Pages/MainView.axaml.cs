@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
@@ -219,6 +220,37 @@ public partial class MainView : UserControl
 
     private void PropertyButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        
+        var path = Core.ProjectPath;
+        if (path == string.Empty)
+        {
+            path = "null";
+        }
+        ContentDialog contentDialog = new ContentDialog();
+        contentDialog.DefaultButton = ContentDialogButton.Close;
+        contentDialog.CloseButtonText = "确定";
+        contentDialog.Title = "项目属性";
+        contentDialog.Content = new Grid()
+        {
+            Children =
+            {
+                new StackPanel()
+                {
+                    Children =
+                    {
+                        new Label()
+                        {
+                            Content = $"项目名称：{Core.ProjectName}",
+                            Margin = new Thickness(5)
+                        },
+                        new Label()
+                        {
+                            Content = $"项目路径：{path}",
+                            Margin = new Thickness(5)
+                        }
+                    }
+                }
+            }
+        };
+        contentDialog.ShowAsync(Core.MainWindow);
     }
 }
