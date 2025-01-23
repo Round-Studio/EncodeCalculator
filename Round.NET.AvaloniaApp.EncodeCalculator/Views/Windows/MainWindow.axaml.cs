@@ -13,7 +13,11 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        _manager = new WindowNotificationManager(this) { MaxItems = 5 };
+        _manager = new WindowNotificationManager(this)
+        {
+            MaxItems = 10,
+            
+        };
         _manager.Position = NotificationPosition.BottomRight;
         Core.MainWindow = this;
         this.Title = $"REC - 可编码计算器 - [{Project.DEFAULT_FILE_NAME}]";
