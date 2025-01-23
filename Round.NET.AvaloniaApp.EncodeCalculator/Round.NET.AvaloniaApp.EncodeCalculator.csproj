@@ -43,7 +43,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\User File\Desktop\EncodeCalculator.SuffixExpressionsCalculating\EncodeCalculator.SuffixExpressionsCalculating.csproj" />
     <ProjectReference Include="..\EncodeCalculator.SuffixExpressionsCalculating\EncodeCalculator.SuffixExpressionsCalculating.csproj" />
   </ItemGroup>
 </Project>

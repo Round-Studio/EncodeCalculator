@@ -8,7 +8,7 @@
              x:Class="Round.NET.AvaloniaApp.EncodeCalculator.Views.Pages.SubPages.AboutPage">
     <Grid>
         <TabControl>
-            <TabItem Header="主要信息">
+            <TabItem Header="信息">
                 <Grid>
                     <StackPanel>
                         <Label FontSize="20">主要信息：</Label>
