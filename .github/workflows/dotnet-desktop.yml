@@ -58,7 +58,7 @@ jobs:
           pupnet -r win-x86 -k setup -y -o Round.NET.AvaloniaApp.EncodeCalculator.Desktop.win.x86.installer.exe --app-version ${{ needs.time.outputs.y }}.${{ needs.time.outputs.md }}.${{ needs.time.outputs.hm }}
           pupnet -r win-arm64 -k setup -y -o Round.NET.AvaloniaApp.EncodeCalculator.Desktop.win.arm64.installer.exe --app-version ${{ needs.time.outputs.y }}.${{ needs.time.outputs.md }}.${{ needs.time.outputs.hm }}
       - name: UploadArtifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: win-artifacts
           path: |
