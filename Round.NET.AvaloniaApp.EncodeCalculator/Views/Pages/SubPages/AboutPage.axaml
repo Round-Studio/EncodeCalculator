@@ -1,0 +1,102 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Width="500"
+             Height="300"
+             x:Class="Round.NET.AvaloniaApp.EncodeCalculator.Views.Pages.SubPages.AboutPage">
+    <Grid>
+        <TabControl>
+            <TabItem Header="主要信息">
+                <Grid>
+                    <StackPanel>
+                        <Label FontSize="20">主要信息：</Label>
+                        <Label>程序名称：Round Encode Calculator</Label>
+                        <Label>程序包名：Round.NET.AvaloniaApp.EncodeCalculator</Label>
+                        <Label>归属组织：Round Studio</Label>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="成员">
+                <StackPanel>
+                    <Label FontSize="20">参与项目开发的成员（不分先后顺序）：</Label>
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <StackPanel Margin="10">
+                            <HyperlinkButton NavigateUri="https://space.bilibili.com/1527364468">
+                                <DockPanel Margin="5">
+                                    <Image Source="../../../Assets/PeopleAssets/MinecraftYJQ_.png" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0">Minecraft一角钱</Label>
+                                </DockPanel>
+                            </HyperlinkButton>
+                            <HyperlinkButton NavigateUri="https://github.com/Haveaovinopensourcespirit">
+                                <DockPanel Margin="5">
+                                    <Image Source="../../../Assets/PeopleAssets/Haveaovinopensourcespirit.jpg" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0">卡里</Label>
+                                </DockPanel>
+                            </HyperlinkButton>
+                        </StackPanel>
+                        <StackPanel Margin="45,10">
+                            <HyperlinkButton NavigateUri="https://github.com/0x44614D696E67">
+                                <DockPanel Margin="5">
+                                    <Image Source="../../../Assets/PeopleAssets/DrMing.jpg" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0">DrMing</Label>
+                                </DockPanel>
+                            </HyperlinkButton>
+                        </StackPanel>
+                    </DockPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="引用">
+                <StackPanel>
+                    <Label FontSize="20">使用到的开源项目：</Label>
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <StackPanel Margin="10">
+                            
+                            <HyperlinkButton NavigateUri="https://github.com/dotnet">
+                                <DockPanel Margin="5">
+                                    <Image Source="../../../Assets/LibAssets/Dotnet_Icon.jpg" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0">Dotnet .NET</Label>
+                                </DockPanel>
+                            </HyperlinkButton>
+                            
+                            <HyperlinkButton NavigateUri="https://github.com/russkyc/heroicons-avalonia">
+                                <DockPanel Margin="5">
+                                    <Image Source="../../../Assets/LibAssets/HeroIcons_Icon.png" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0">HeroIcons.Avalonia</Label>
+                                </DockPanel>
+                            </HyperlinkButton>
+                            
+                            <HyperlinkButton NavigateUri="https://github.com/JamesNK/Newtonsoft.Json.Bson">
+                                <DockPanel Margin="5">
+                                    <Image Source="../../../Assets/LibAssets/NewtonsoftJsonBson_Icon.png" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0">Newtonsoft.Json.Bson</Label>
+                                </DockPanel>
+                            </HyperlinkButton>
+                        </StackPanel>
+                        <StackPanel Margin="10">
+                            <HyperlinkButton NavigateUri="https://github.com/AvaloniaUI/Avalonia">
+                                <DockPanel Margin="5">
+                                    <Image Source="../../../Assets/LibAssets/Avalonia_Icon.png" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0">Avalonia</Label>
+                                </DockPanel>
+                            </HyperlinkButton>
+                            <HyperlinkButton NavigateUri="https://github.com/amwx/FluentAvalonia">
+                                <DockPanel Margin="5">
+                                    <Image Source="../../../Assets/LibAssets/FluentAvaloniaUI_Icon.png" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0">FluentAvaloniaUI</Label>
+                                </DockPanel>
+                            </HyperlinkButton>
+                            <HyperlinkButton NavigateUri="https://github.com/icsharpcode/AvalonEdit">
+                                <DockPanel Margin="5">
+                                    <Image Source="../../../Assets/LibAssets/AvalonEdit_Icon.png" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0">AvalonEdit</Label>
+                                </DockPanel>
+                            </HyperlinkButton>
+                        </StackPanel>
+                    </DockPanel>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

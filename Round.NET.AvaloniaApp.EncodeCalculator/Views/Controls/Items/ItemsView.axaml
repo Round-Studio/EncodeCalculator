@@ -1,0 +1,42 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls"
+             xmlns:controls1="clr-namespace:HeroIconsAvalonia.Controls;assembly=HeroIconsAvalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls.ItemsView"
+             Background="rgb(40,40,40)">
+    <Grid>
+        <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" FontSize="20">工作台</Label>
+        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Height="32" Width="32">
+            <Button.Flyout>
+                <MenuFlyout>
+                    <MenuItem Header="打开设置" Name="SettingButton" Click="SettingButton_OnClick">
+                        <MenuItem.Icon>
+                            <controls1:HeroIcon Height="16" Width="16" Foreground="White" Type="Cog6Tooth"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="查看关于" Name="AboutButton" Click="AboutButton_OnClick">
+                        <MenuItem.Icon>
+                            <controls1:HeroIcon Height="16" Width="16" Foreground="White" Type="InformationCircle"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuFlyout>
+            </Button.Flyout>
+            
+            <controls1:HeroIcon Height="16" Width="16" Foreground="White" Type="Cog6Tooth" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Button>
+        <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,53,10,80" Background="rgb(45,45,45)" CornerRadius="6">
+            <ListBox Name="ItemListBox" Margin="0,10,0,10">
+                
+            </ListBox>
+        </Border>
+        <Border CornerRadius="6" Margin="10" VerticalAlignment="Bottom" Height="60" Background="rgb(45,45,45)" >
+            <DockPanel>
+                <Button Name="AddNewItemButton" Margin="10,10,0,10" Click="AddNewItemButton_OnClick">添加项</Button>
+                <Button Name="RunButton" Margin="10,10,0,10" Click="RunButton_OnClick">运行</Button>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>
