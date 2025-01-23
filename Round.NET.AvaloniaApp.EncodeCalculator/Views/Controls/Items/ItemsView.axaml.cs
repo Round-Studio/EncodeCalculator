@@ -7,6 +7,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models;
+using Round.NET.AvaloniaApp.EncodeCalculator.Models.Config;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage.ProjectMange;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.Runner;
@@ -89,11 +90,18 @@ public partial class ItemsView : UserControl
     {
         Dispatcher.UIThread.Invoke(() =>
         {
+            var setpage = new SettingPage();
+            setpage.Config = Config.MainConfig;
             var Show = new ContentDialog();
             Show.Title = "设置";
-            Show.Content = new SettingPage();
+            Show.Content = setpage;
             Show.CloseButtonText = "确定";
             Show.PrimaryButtonText = "取消";
+            Show.CloseButtonClick += (dialog, args) =>
+            {
+                Config.MainConfig = setpage.Config;
+                Config.SaveConfig();
+            };
             Show.DefaultButton = ContentDialogButton.Close;
             Show.ShowAsync(Core.MainWindow);
         });

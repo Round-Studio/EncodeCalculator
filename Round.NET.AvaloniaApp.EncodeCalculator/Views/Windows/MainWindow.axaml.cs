@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using EncodeCalculator.SuffixExpressionsCalculating;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models;
+using Round.NET.AvaloniaApp.EncodeCalculator.Models.Config;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage.ProjectMange;
 
 namespace Round.NET.AvaloniaApp.EncodeCalculator.Views;
@@ -12,6 +13,8 @@ public partial class MainWindow : Window
     public WindowNotificationManager? _manager;
     public MainWindow()
     {
+        Config.LoadConfig();
+        
         InitializeComponent();
         _manager = new WindowNotificationManager(this)
         {

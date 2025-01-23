@@ -2,11 +2,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d"
+             Width="500"
              x:Class="Round.NET.AvaloniaApp.EncodeCalculator.Views.Pages.SubPages.SettingPage">
     <Grid>
-        <StackPanel>
-            
-        </StackPanel>
+        <ScrollViewer>
+            <StackPanel Margin="10">
+                <Label FontSize="20" FontWeight="Bold">输出设置：</Label>
+                <DockPanel>
+                    <Label VerticalAlignment="Center">输出字体大小：</Label>
+                    <Slider Maximum="50" Minimum="16" Value="20" Name="FontSizeBar"></Slider>
+                </DockPanel>
+                <Label FontSize="20" FontWeight="Bold">系统设置：</Label>
+                <DockPanel>
+                    <Label VerticalAlignment="Center">信息提醒模式：</Label>
+                    <DockPanel Height="45">
+                        <CheckBox IsChecked="True" x:Name="Err">错误信息</CheckBox>
+                        <CheckBox IsChecked="True" x:Name="Wor">警告信息</CheckBox>
+                        <CheckBox IsChecked="True" x:Name="Suc">普通信息</CheckBox>
+                    </DockPanel>
+                </DockPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>
