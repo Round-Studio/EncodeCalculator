@@ -74,7 +74,7 @@ jobs:
           echo "date=$(date +'%Y-%m-%d.%H-%M-%S')" >> $GITHUB_OUTPUT
           echo "title=$(date +'%Y.%m.%d.%H.%M')" >> $GITHUB_OUTPUT
       - name: Download-WindowsArtifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: win-artifacts
           path: ./Round.NET.AvaloniaApp.EncodeCalculator/Release/
