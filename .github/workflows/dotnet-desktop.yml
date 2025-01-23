@@ -19,8 +19,8 @@ jobs:
       with:
         dotnet-version: '8.0.x'  # 根据你的项目需求调整 .NET 版本
 
-    - name: Restore dependencies
-      run: dotnet restore ./Round.NET.AvaloniaApp.EncodeCalculator/Round.NET.AvaloniaApp.EncodeCalculator.csproj
+    - name: Restore NuGet packages
+      run: dotnet restore ./Round.NET.AvaloniaApp.EncodeCalculator/Round.NET.AvaloniaApp.EncodeCalculator.csproj --force
 
     - name: Build project
       run: dotnet build ./Round.NET.AvaloniaApp.EncodeCalculator/Round.NET.AvaloniaApp.EncodeCalculator.csproj --no-restore -c Release
