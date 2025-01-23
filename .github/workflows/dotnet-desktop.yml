@@ -91,7 +91,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: linux-artifacts
-          path: |
+          run: |
           /Round.NET.AvaloniaApp.EncodeCalculator.Desktop/Deploy/OUT/*
           /Round.NET.AvaloniaApp.EncodeCalculator.Desktop/bin/Release/net8.0/*.zip
 
