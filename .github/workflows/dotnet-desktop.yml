@@ -84,7 +84,7 @@ jobs:
       - name: Publish Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          repo_token: "${{ secrets.TOKEN }}"
+          repo_token: "${{ secrets.ACTION_TOKEN }}"
           title: "v${{ needs.time.outputs.v }}"
           automatic_release_tag: "AutoPublish-${{ steps.gdate.outputs.date }}"
           prerelease: false
