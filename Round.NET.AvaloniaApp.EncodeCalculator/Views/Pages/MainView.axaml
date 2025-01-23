@@ -46,6 +46,18 @@
                                  <controls1:HeroIcon Height="16" Width="16" Foreground="White" Type="XMark"/>
                              </MenuItem.Icon>
                          </MenuItem>
+                     </MenuItem> <!-- 文件 -->
+                     <MenuItem Header="编辑"> <!-- 编辑 -->
+                         <MenuItem Header="撤销    (Ctrl+Z)" HotKey="Ctrl+Z" Name="CZ" Click="CZ_OnClick">
+                             <MenuItem.Icon>
+                                 <controls1:HeroIcon Height="16" Width="16" Foreground="White" Type="ArrowLeftCircle"/>
+                             </MenuItem.Icon>
+                         </MenuItem>
+                         <MenuItem Header="重做    (Ctrl+Y)" HotKey="Ctrl+Y" Name="CY" Click="CY_OnClick">
+                             <MenuItem.Icon>
+                                 <controls1:HeroIcon Height="16" Width="16" Foreground="White" Type="ArrowRightCircle"/>
+                             </MenuItem.Icon>
+                         </MenuItem>
                      </MenuItem>
                  </Menu>
              </DockPanel>

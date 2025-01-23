@@ -47,7 +47,7 @@ public partial class EditItem : UserControl
     private void DeleteItem_OnClick(object? sender, RoutedEventArgs e)
     {
         ItemMange.DeleteItemForUUID(this.UnitItem.uuid);
-        Core.ModifyTheStatus = true;
+        Core.SetNowModifyTheStatus(true);
         ContentDialog.Hide();
     }
 }

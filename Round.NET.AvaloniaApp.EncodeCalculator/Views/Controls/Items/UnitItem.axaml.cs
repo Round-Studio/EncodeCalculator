@@ -61,7 +61,7 @@ public partial class UnitItem : UserControl
                 ValueBox.Text = Edit.ValueBox.Text;
                 NameBox.Content = Edit.NameBox.Text;
                 
-                Core.ModifyTheStatus = true;
+                Core.SetNowModifyTheStatus(true);
             };
             Show.ShowAsync(Core.MainWindow);
         });
@@ -70,6 +70,6 @@ public partial class UnitItem : UserControl
     private void ValueBox_OnTextChanging(object? sender, TextChangingEventArgs e)
     {
         Value = ValueBox.Text;
-        Core.ModifyTheStatus = true;
+        Core.SetNowModifyTheStatus(true);
     }
 }

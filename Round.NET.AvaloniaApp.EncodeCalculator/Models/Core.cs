@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using AvaloniaEdit;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage.ProjectMange;
 using Round.NET.AvaloniaApp.EncodeCalculator.Views;
@@ -46,7 +47,7 @@ public class Core
     }
 
     private static bool _ModifyTheStatus {get; set;} = false;
-    public static bool ModifyTheStatus
+    private static bool ModifyTheStatus
     {
         get
         {
@@ -78,5 +79,23 @@ public class Core
         {
             MainWindow.Title = $"REC - 可编码计算器 - [{Core.ProjectName}]";
         }
+    }
+
+    public static void SetNowModifyTheStatus(bool NowModifyTheStatus)
+    {
+        if (!Edit.Edit.EditMode)
+        {
+            ModifyTheStatus = NowModifyTheStatus;
+            if (NowModifyTheStatus)
+            {
+                Edit.Edit.UndoStack.Push(Project.SaveProject.GetNowRoot());
+                Console.WriteLine("添加了一次撤销");   
+            }
+        }
+    }
+
+    public static bool GetNowModifyTheStatus()
+    {
+        return ModifyTheStatus;
     }
 }

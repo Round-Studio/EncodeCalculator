@@ -45,7 +45,7 @@ public partial class ItemsView : UserControl
                     Name = AddItems.NameBox.Text,
                 });
 
-                Core.ModifyTheStatus = true;
+                Core.SetNowModifyTheStatus(true);
             }
         };
         

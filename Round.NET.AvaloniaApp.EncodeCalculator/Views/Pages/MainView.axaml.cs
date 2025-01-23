@@ -8,6 +8,7 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models;
+using Round.NET.AvaloniaApp.EncodeCalculator.Models.Edit;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage.ProjectMange;
 using Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls;
@@ -50,7 +51,7 @@ public partial class MainView : UserControl
         if (Core.ProjectPath != string.Empty)
         {
             name = Path.GetFileName(Core.ProjectPath);
-            Core.ModifyTheStatus = false;
+            Core.SetNowModifyTheStatus(false);
         }
         else
         {
@@ -73,7 +74,8 @@ public partial class MainView : UserControl
         {
             File.WriteAllText(filePath, Project.SaveProject.GetTheContentsOfTheSaveFile());
             Core.ProjectPath = filePath;
-            Core.ModifyTheStatus = false;
+            Core.SetNowModifyTheStatus(false);
+            Core.MainWindow.ShowMessage("保存",$"文件保存成功！\n文件已保存到{filePath}",NotificationType.Success);
         }
     }
 
@@ -102,13 +104,13 @@ public partial class MainView : UserControl
                     {
                         Project.OpenProject.OpenProjectFile(filePaths[0]);
                         Core.ProjectPath = filePaths[0];
-                        Core.ModifyTheStatus = false;
+                        Core.SetNowModifyTheStatus(false);
                     }
                 }
             }catch { }
         }
         
-        if (!Core.ModifyTheStatus)
+        if (!Core.GetNowModifyTheStatus())
         {
             Open();
         }
@@ -139,7 +141,8 @@ public partial class MainView : UserControl
         if (Core.ProjectPath != "" && Core.ProjectPath != string.Empty && Core.ProjectPath != null)
         {
             File.WriteAllText(Core.ProjectPath, Project.SaveProject.GetTheContentsOfTheSaveFile());
-            Core.ModifyTheStatus = false;
+            Core.SetNowModifyTheStatus(false);
+            Core.MainWindow.ShowMessage("保存",$"文件保存成功！\n文件已保存到{Core.ProjectPath}",NotificationType.Success);
         }
         else
         {
@@ -160,7 +163,8 @@ public partial class MainView : UserControl
             {
                 File.WriteAllText(filePath, Project.SaveProject.GetTheContentsOfTheSaveFile());
                 Core.ProjectPath = filePath;
-                Core.ModifyTheStatus = false;
+                Core.SetNowModifyTheStatus(false);
+                Core.MainWindow.ShowMessage("保存",$"文件保存成功！\n文件已保存到{filePath}",NotificationType.Success);
             }
         }
     }
@@ -172,7 +176,7 @@ public partial class MainView : UserControl
             Project.NewProject.NewProjectCore();
         }
         
-        if (!Core.ModifyTheStatus)
+        if (!Core.GetNowModifyTheStatus())
         {
             New();
         }
@@ -201,7 +205,7 @@ public partial class MainView : UserControl
     private void ExitButton_OnClick(object? sender, RoutedEventArgs e)
     {
         void Exit() => Environment.Exit(0); // 0表示正常退出，非0表示异常退出
-        if (!Core.ModifyTheStatus)
+        if (!Core.GetNowModifyTheStatus())
         {
             Exit();
         }
@@ -252,5 +256,15 @@ public partial class MainView : UserControl
             }
         };
         contentDialog.ShowAsync(Core.MainWindow);
+    }
+
+    private void CZ_OnClick(object? sender, RoutedEventArgs e)
+    {
+        Edit.UndoEdit();
+    }
+
+    private void CY_OnClick(object? sender, RoutedEventArgs e)
+    {
+        Edit.RedoEdit();
     }
 }

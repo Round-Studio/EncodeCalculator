@@ -29,6 +29,13 @@ public class Project
     {
         public static string GetTheContentsOfTheSaveFile()
         {
+            string result = Regex.Unescape(JsonSerializer.Serialize(GetNowRoot(), new JsonSerializerOptions() { WriteIndented = true })); //获取结果并转换成正确的格式
+            
+            return result;
+        }
+
+        public static Root GetNowRoot()
+        {
             var root = new Root();
             foreach (var item in ItemMange.Items)
             {
@@ -39,10 +46,7 @@ public class Project
                     IsMain = item.IsMain
                 });
             }
-            
-            string result = Regex.Unescape(JsonSerializer.Serialize(root, new JsonSerializerOptions() { WriteIndented = true })); //获取结果并转换成正确的格式
-            
-            return result;
+            return root;
         }
     }
     public class OpenProject
@@ -50,10 +54,16 @@ public class Project
         public static void OpenProjectFile(string path)
         {
             var FileContents = File.ReadAllText(path);
-            var Root = JsonSerializer.Deserialize<Root>(FileContents);
+            var Roots = JsonSerializer.Deserialize<Root>(FileContents);
+            
+            OpenProjectCore(Roots);
+        }
+
+        public static void OpenProjectCore(Root root)
+        {
             ItemMange.ClearItems();
 
-            foreach (var item in Root.Items)
+            foreach (var item in root.Items)
             {
                 ItemMange.AddItem(new ItemMange.RootConfig()
                 {
@@ -69,6 +79,7 @@ public class Project
     {
         public static void NewProjectCore()
         {
+            Edit.Edit.EditMode = true;
             ItemMange.ClearItems();
             ItemMange.AddItem(new ItemMange.RootConfig()
             {
@@ -79,7 +90,9 @@ public class Project
             
             Core.ProjectPath = String.Empty;
             Core.ProjectName = $"无标题.{FILE_TYPE}";
-            Core.ModifyTheStatus = false;
+            Core.SetNowModifyTheStatus(false);
+            Edit.Edit.ClearEdits();
+            Edit.Edit.EditMode = false;
         }
     }
 }
