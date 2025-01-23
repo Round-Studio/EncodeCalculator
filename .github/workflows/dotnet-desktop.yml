@@ -1,52 +1,165 @@
-name: Build Avalonia Desktop App
+name: Publish
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ "master" ]  # 修改为你使用的分支
-  pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
 
 jobs:
-  build:
-    runs-on: windows-latest
-
+  time:
+    runs-on: ubuntu-latest
+    outputs:
+      v: ${{ steps.date.outputs.time }}
+      y: ${{ steps.date.outputs.y }}
+      md: ${{ steps.date.outputs.md }}
+      hm: ${{ steps.date.outputs.hm }}
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Time
+        id: date
+        run: |
+          echo "::set-output name=time::$(date +'%Y.%m.%d.%H.%M')"
+          echo "::set-output name=y::$(date +'%Y')"
+          echo "::set-output name=md::$(date +'%m%d')"
+          echo "::set-output name=hm::$(date +'%H%M')"
+      - name: EchoTime
+        run: |
+          echo "The current time is: ${{ steps.date.outputs.time }}"
 
-    - name: 安装 .NET SDK
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.0.x'  # 根据你的项目需求调整 .NET 版本
+  linux:
+    runs-on: ubuntu-20.04
+    needs: time
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      # - name: Time
+      #  id: date
+      #  run: |
+      #    echo "${{ needs.time.outputs.v }}" > ./YMCL/Public/Texts/DateTime.txt
+      #    echo "Version is ${{ needs.time.outputs.v }}"
+      - name: Dependency
+        run: |
+          dotnet tool install -g KuiperZone.PupNet
+          sudo apt-get update
+          sudo apt-get install fuse
+      - name: Build-AppImage
+        run: |
+          cd ./Round.NET.AvaloniaApp.EncodeCalculator.Desktop
+          sudo su
+          pupnet --runtime linux-x64 --kind appimage -o Round.NET.AvaloniaApp.EncodeCalculator.Desktop.linux.x64.AppImage -y --app-version ${{ needs.time.outputs.y }}.${{ needs.time.outputs.md }}.${{ needs.time.outputs.hm }}
+          pupnet --runtime linux-arm --kind appimage -o Round.NET.AvaloniaApp.EncodeCalculator.Desktop.linux.arm.AppImage -y --app-version ${{ needs.time.outputs.y }}.${{ needs.time.outputs.md }}.${{ needs.time.outputs.hm }}
+          pupnet --runtime linux-arm64 --kind appimage -o Round.NET.AvaloniaApp.EncodeCalculator.Desktop.linux.arm64.AppImage -y --app-version ${{ needs.time.outputs.y }}.${{ needs.time.outputs.md }}.${{ needs.time.outputs.hm }}
+      - name: Build-MacOsApp
+        run: |
+          cd ./Round.NET.AvaloniaApp.EncodeCalculator.Desktop
+          sudo su
+          dotnet restore -r osx-x64
+          dotnet msbuild -t:BundleApp -p:RuntimeIdentifier=osx-x64  -property:Configuration=Release -p:SelfContained=true
+          dotnet restore -r osx-arm64
+          dotnet msbuild -t:BundleApp -p:RuntimeIdentifier=osx-arm64  -property:Configuration=Release -p:SelfContained=true
+          cd ./bin/Release/net8.0/
+          cd ./osx-x64/publish/
+          zip -9 -r ../../Round.NET.AvaloniaApp.EncodeCalculator.Desktop.osx.mac.x64.app.zip ./REC.app
+          cd ../../
+          cd ./osx-arm64/publish/
+          zip -9 -r ../../Round.NET.AvaloniaApp.EncodeCalculator.Desktop.osx.mac.arm64.app.zip ./REC.app
+      - name: Build-WinExe
+        run: |
+          cd ./Round.NET.AvaloniaApp.EncodeCalculator.Desktop
+          sudo su
+          dotnet publish -r win-x86 --self-contained true -p:PublishSingleFile=true
+          dotnet publish -r win-x64 --self-contained true -p:PublishSingleFile=true
+          dotnet publish -r win-arm64 --self-contained true -p:PublishSingleFile=true
+          mv ./bin/Release/net8.0/win-x86/publish/Round.NET.AvaloniaApp.EncodeCalculator.Desktop.exe ./bin/Release/net8.0/win-x86/publish/Round.NET.AvaloniaApp.EncodeCalculator.Desktop.win7.x86.exe
+          mv ./bin/Release/net8.0/win-x64/publish/Round.NET.AvaloniaApp.EncodeCalculator.Desktop.exe ./bin/Release/net8.0/win-x64/publish/Round.NET.AvaloniaApp.EncodeCalculator.Desktop.win7.x64.exe
+          mv ./bin/Release/net8.0/win-arm64/publish/Round.NET.AvaloniaApp.EncodeCalculator.Desktop.exe ./bin/Release/net8.0/win-arm64/publish/Round.NET.AvaloniaApp.EncodeCalculator.Desktop.win7.arm64.exe
+          cd ./bin/Release/net8.0/
+          cd ./win-x86/publish/
+          zip -9 -r "../../Round.NET.AvaloniaApp.EncodeCalculator.Desktop.win7.x86.exe.zip" "./Round.NET.AvaloniaApp.EncodeCalculator.Desktop.win7.x86.exe"
+          cd ../../
+          cd ./win-x64/publish/
+          zip -9 -r "../../Round.NET.AvaloniaApp.EncodeCalculator.Desktop.win7.x64.exe.zip" "./Round.NET.AvaloniaApp.EncodeCalculator.Desktop.win7.x64.exe"
+          cd ../../
+          cd ./win-arm64/publish/
+          zip -9 -r "../../Round.NET.AvaloniaApp.EncodeCalculator.Desktop.win7.arm64.exe.zip" "./Round.NET.AvaloniaApp.EncodeCalculator.Desktop.win7.arm64.exe"
+      - name: UploadArtifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-artifacts
+          path: |
+          /Round.NET.AvaloniaApp.EncodeCalculator.Desktop/Deploy/OUT/*
+          /Round.NET.AvaloniaApp.EncodeCalculator.Desktop/bin/Release/net8.0/*.zip
 
-    - name: 构建
-      run: dotnet build --configuration Release
+  win:
+    runs-on: windows-latest
+    needs: time
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Dependency-InnoSetup
+        uses: ConorMacBride/install-package@v1
+        with:
+          choco: innosetup
+      - name: Chinesize-InnoSetup
+        run: |
+          Copy-Item "./Round.NET.AvaloniaApp.EncodeCalculator/Public/Default.isl" "C:\Program Files (x86)\Inno Setup 6\Default.isl" -Force
+      - name: Dependency-Pupnet
+        run: |
+          dotnet tool install -g KuiperZone.PupNet
+      - name: Time
+        id: date
+        run: |
+          echo "${{ needs.time.outputs.v }}" > ./Round.NET.AvaloniaApp.EncodeCalculator/Public/DateTime.txt
+          echo "Version is ${{ needs.time.outputs.v }}"
+        shell: bash
+      - name: Build
+        run: |
+          cd ./Round.NET.AvaloniaApp.EncodeCalculator.Desktop
+          pupnet -r win-x64 -k setup -y -o Round.NET.AvaloniaApp.EncodeCalculator.Desktop.win.x64.installer.exe --app-version ${{ needs.time.outputs.y }}.${{ needs.time.outputs.md }}.${{ needs.time.outputs.hm }}
+          pupnet -r win-x86 -k setup -y -o Round.NET.AvaloniaApp.EncodeCalculator.Desktop.win.x86.installer.exe --app-version ${{ needs.time.outputs.y }}.${{ needs.time.outputs.md }}.${{ needs.time.outputs.hm }}
+          pupnet -r win-arm64 -k setup -y -o Round.NET.AvaloniaApp.EncodeCalculator.Desktop.win.arm64.installer.exe --app-version ${{ needs.time.outputs.y }}.${{ needs.time.outputs.md }}.${{ needs.time.outputs.hm }}
+      - name: UploadArtifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: win-artifacts
+          path: |
+            ./Round.NET.AvaloniaApp.EncodeCalculator.Desktop/Deploy/OUT/*
 
-    - name: 打包输出目录
-      run: |
-        $sourceDir = "./Round.NET.AvaloniaApp.EncodeCalculator.Desktop/bin/Release"
-        $zipFile = "./release-artifact.zip"
-        if (Test-Path $zipFile) { Remove-Item $zipFile }  # 如果文件已存在，先删除
-        Compress-Archive -Path $sourceDir -DestinationPath $zipFile
-      shell: pwsh
-
-    - name: 创建并发布 Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: testbuild  # 使用分支名或自定义版本号
-        release_name: Release testbuild
-        draft: false
-        prerelease: false
-
-    - name: 上传打包文件到 Release
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}  # 从创建 Release 的步骤获取上传 URL
-        asset_path: ./release-artifact.zip  # 打包后的文件路径
-        asset_name: release-artifact.zip  # 上传后的文件名
-        asset_content_type: application/zip
+  publish:
+    needs: [linux, win, time]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Time
+        id: gdate
+        run: |
+          echo "date=$(date +'%Y-%m-%d.%H-%M-%S')" >> $GITHUB_OUTPUT
+          echo "title=$(date +'%Y.%m.%d.%H.%M')" >> $GITHUB_OUTPUT
+      - name: Download-LinuxArtifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-artifacts
+          path: ./Round.NET.AvaloniaApp.EncodeCalculator/Release/
+      - name: Download-WindowsArtifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: win-artifacts
+          path: ./Round.NET.AvaloniaApp.EncodeCalculator/Release/
+      - name: List Files
+        run: |
+          ls -la ./Round.NET.AvaloniaApp.EncodeCalculator/Release/
+      - name: Publish Release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.TOKEN }}"
+          title: "v${{ needs.time.outputs.v }}"
+          automatic_release_tag: "AutoPublish-${{ steps.gdate.outputs.date }}"
+          prerelease: false
+          files: |
+            Round.NET.AvaloniaApp.EncodeCalculator/Release/*.exe
+            Round.NET.AvaloniaApp.EncodeCalculator/Release/Deploy/OUT/*.AppImage
+            Round.NET.AvaloniaApp.EncodeCalculator/Release/bin/Release/net8.0/*.zip
