@@ -40,7 +40,7 @@ jobs:
       - name: Time
         id: date
         run: |
-          echo "${{ needs.time.outputs.v }}" > ./REC.Main/REC/Public/Texts/DateTime.txt
+          echo "${{ needs.time.outputs.v }}" > ./DateTime.txt
           echo "Version is ${{ needs.time.outputs.v }}"
       - name: Dependency
         run: |
@@ -64,10 +64,10 @@ jobs:
           dotnet msbuild -p:RuntimeIdentifier=osx-arm64  -property:Configuration=Release -p:SelfContained=true
           cd ./bin/Release/net8.0/
           cd ./osx-x64/publish/
-          zip -9 -r ../../REC.Desktop.osx.mac.x64.app.zip ./REC.app
-          cd ../../
+          zip -9 -r ./REC.Desktop.osx.mac.x64.app.zip ./REC.app
+          cd ./
           cd ./osx-arm64/publish/
-          zip -9 -r ../../REC.Desktop.osx.mac.arm64.app.zip ./REC.app
+          zip -9 -r ./REC.Desktop.osx.mac.arm64.app.zip ./REC.app
       - name: Build-WinExe
         run: |
           cd ./REC.Main
@@ -80,13 +80,13 @@ jobs:
           mv ./bin/Release/net8.0/win-arm64/publish/REC.Desktop.exe ./bin/Release/net8.0/win-arm64/publish/REC.Desktop.win7.arm64.exe
           cd ./bin/Release/net8.0/
           cd ./win-x86/publish/
-          zip -9 -r "../../REC.Desktop.win7.x86.exe.zip" "./REC.Desktop.win7.x86.exe"
-          cd ../../
+          zip -9 -r "./REC.Desktop.win7.x86.exe.zip" "./REC.Desktop.win7.x86.exe"
+          cd ./
           cd ./win-x64/publish/
-          zip -9 -r "../../REC.Desktop.win7.x64.exe.zip" "./REC.Desktop.win7.x64.exe"
-          cd ../../
+          zip -9 -r "./REC.Desktop.win7.x64.exe.zip" "./REC.Desktop.win7.x64.exe"
+          cd ./
           cd ./win-arm64/publish/
-          zip -9 -r "../../REC.Desktop.win7.arm64.exe.zip" "./REC.Desktop.win7.arm64.exe"
+          zip -9 -r "./REC.Desktop.win7.arm64.exe.zip" "./REC.Desktop.win7.arm64.exe"
       - name: UploadArtifacts
         uses: actions/upload-artifact@v3
         with:
@@ -111,7 +111,7 @@ jobs:
       - name: Time
         id: date
         run: |
-          echo "${{ needs.time.outputs.v }}" > ./REC.Main/Public/Texts/DateTime.txt
+          echo "${{ needs.time.outputs.v }}" > ./DateTime.txt
           echo "Version is ${{ needs.time.outputs.v }}"
         shell: bash
       - name: Build
