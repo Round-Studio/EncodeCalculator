@@ -199,7 +199,22 @@ public partial class MainView : UserControl
 
     private void ExitButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        
+        void Exit() => Environment.Exit(0); // 0表示正常退出，非0表示异常退出
+        if (!Core.ModifyTheStatus)
+        {
+            Exit();
+        }
+        else
+        {
+            ContentDialog contentDialog = new ContentDialog();
+            contentDialog.DefaultButton = ContentDialogButton.Close;
+            contentDialog.PrimaryButtonText = "强制退出";
+            contentDialog.CloseButtonText = "我不退出";
+            contentDialog.Title = "提示";
+            contentDialog.Content = "当前文件未保存，请问您如何处理？";
+            contentDialog.PrimaryButtonClick += (_, _) => { Exit(); };
+            contentDialog.ShowAsync(Core.MainWindow);
+        }
     }
 
     private void PropertyButton_OnClick(object? sender, RoutedEventArgs e)
