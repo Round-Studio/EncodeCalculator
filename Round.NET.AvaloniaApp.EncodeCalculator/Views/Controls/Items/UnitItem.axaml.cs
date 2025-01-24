@@ -5,6 +5,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
+using HeroIconsAvalonia.Enums;
 using ReactiveUI;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage;
@@ -54,8 +55,19 @@ public partial class UnitItem : UserControl
     }
     public string ClassicValue { get; set; }
     
-    public bool IsMain { get; set; } = false;
-
+    public bool IsMain {
+        get
+        {
+            return Name == "Main";
+        }
+        set
+        {
+            if(value == true)
+            {
+                IconBox.Type = IconType.RocketLaunch;
+            }
+        }
+    }
     public UnitItem()
     {
         InitializeComponent();
