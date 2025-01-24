@@ -8,7 +8,12 @@ public class RunCalculator
 {
     private static int TheNumberOfRecursions = 0; //递归次数统计
     private static string AlgorithmicProcess = "";
-    public static void Run()
+    public class RunnerClass
+    {
+        public string Formula { get; set; }= string.Empty;
+        public string Result { get; set; }= string.Empty;
+    }
+    public static RunnerClass Run()
     {
         TheNumberOfRecursions = 0;//计算前清零递归次数
         AlgorithmicProcess = "";
@@ -20,8 +25,11 @@ public class RunCalculator
         }
         
         double result = new FourCalculations().Compute(Formula);//计算
-        var outresult = $"算式：{Formula}\n结果：{result}";
-        Core.SetOutBoxText(outresult);
+        return new RunnerClass()
+        {
+            Formula = Formula,
+            Result = result.ToString(),
+        };
     }
 
     public static bool DetermineWhetherAFunctionExists(string expression)//查找是否剩余函数

@@ -59,7 +59,8 @@ public partial class ItemsView : UserControl
     {
         try
         {
-            RunCalculator.Run();
+            var res = RunCalculator.Run();
+            Core.SetOutBoxText($"算式：{res.Formula}\n结果：{res.Result}");
         }
         catch
         {
