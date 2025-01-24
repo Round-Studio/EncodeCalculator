@@ -15,6 +15,7 @@ public partial class UnitItem : UserControl
 {
     public string uuid { get; set; }
     public string _value;
+    public string _note = "无备注";
 
     public string Name
     {
@@ -25,6 +26,18 @@ public partial class UnitItem : UserControl
         set
         {
             NameBox.Content = value;
+        }
+    }
+    public string Note
+    {
+        get
+        {
+            return _note;
+        }
+        set
+        {
+            _note = value;
+            NoteBox.Content = value;
         }
     }
     public string Value
@@ -65,6 +78,7 @@ public partial class UnitItem : UserControl
             {
                 ValueBox.Text = Edit.ValueBox.Text;
                 NameBox.Content = Edit.NameBox.Text;
+                Note = Edit.NoteBox.Text;
                 
                 Core.SetNowModifyTheStatus(true);
             };

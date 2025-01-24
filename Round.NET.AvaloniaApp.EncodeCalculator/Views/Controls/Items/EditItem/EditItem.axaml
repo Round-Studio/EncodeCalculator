@@ -11,6 +11,10 @@
                 <TextBox Name="NameBox" TextChanging="NameBox_OnTextChanging">Name</TextBox>
             </DockPanel>
             <DockPanel Margin="5">
+                <Label Width="90">项备注：</Label>
+                <TextBox Name="NoteBox" TextChanging="NoteBox_OnTextChanging">无备注</TextBox>
+            </DockPanel>
+            <DockPanel Margin="5">
                 <Label Width="90">项值：</Label>
                 <TextBox Name="ValueBox" TextChanging="ValueBox_OnTextChanging">Value</TextBox>
             </DockPanel>

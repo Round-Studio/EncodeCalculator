@@ -24,6 +24,7 @@ public class Project
         public string Name { get; set; }
         public string Value { get; set; }
         public string ClassicValue { get; set; }
+        public string Note { get; set; } = "无备注";
         public bool IsMain { get; set; } = false;
     }
     public class SaveProject
@@ -45,7 +46,8 @@ public class Project
                     Name = item.Name,
                     Value = item.Value.Replace("\n","").Replace("\r",""),
                     ClassicValue = item.ClassicValue.Replace("\n","\\n").Replace("\r","\\r"),
-                    IsMain = item.IsMain
+                    IsMain = item.IsMain,
+                    Note = item.Note
                 });
             }
             return root;
@@ -72,7 +74,8 @@ public class Project
                     Name = item.Name,
                     Value = item.Value,
                     ClassicValue = item.ClassicValue,
-                    IsMain = item.IsMain
+                    IsMain = item.IsMain,
+                    Note = item.Note
                 });
             }
         }
@@ -90,6 +93,7 @@ public class Project
                 Name = "Main",
                 ClassicValue = "1+1",
                 IsMain = true,
+                Note = "程序计算主入口"
             });
             
             Core.ProjectPath = String.Empty;

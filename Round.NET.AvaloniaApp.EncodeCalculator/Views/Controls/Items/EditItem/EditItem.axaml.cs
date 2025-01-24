@@ -28,6 +28,7 @@ public partial class EditItem : UserControl
         this.UUID = uuid;
         NameBox.Text = this.UnitItem.Name;
         ValueBox.Text = this.UnitItem.Value;
+        NoteBox.Text = this.UnitItem.Note;
         Chang = true;
     }
 
@@ -75,5 +76,10 @@ public partial class EditItem : UserControl
             it.Value = UnitItem.Value;
         };
         ContentDialog.ShowAsync(Core.MainWindow);
+    }
+
+    private void NoteBox_OnTextChanging(object? sender, TextChangingEventArgs e)
+    {
+        
     }
 }

@@ -39,6 +39,17 @@ public class ItemMange
                 Item.NameBox.Content = value;
             }
         }
+        public string Note
+        {
+            get
+            {
+                return Item.Note;
+            }
+            set
+            {
+                Item.Note = value;
+            }
+        }
         public UnitItem Item { get; set; } = new UnitItem();
         public string UUID { get; set; }
         public int Type { get; set; } = 0;
@@ -57,6 +68,7 @@ public class ItemMange
             config.Item.IsMain = config.IsMain;
             config.Item.ValueBox.Text = config.Value;
             config.Item.ClassicValue = config.ClassicValue;
+            config.Item.Note = config.Note;
             ItemListBox.Items.Add(config.Item);
         }
         else

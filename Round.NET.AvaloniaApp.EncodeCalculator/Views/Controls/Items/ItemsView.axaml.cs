@@ -44,6 +44,7 @@ public partial class ItemsView : UserControl
                 {
                     Value = AddItems.ValueBox.Text,
                     Name = AddItems.NameBox.Text,
+                    Note = AddItems.NoteBox.Text,
                     ClassicValue = AddItems.ValueBox.Text
                 });
 

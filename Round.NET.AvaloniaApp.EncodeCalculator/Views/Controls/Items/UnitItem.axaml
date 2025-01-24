@@ -5,8 +5,9 @@
              mc:Ignorable="d"
              x:Class="Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls.UnitItem"
              Width="300"
-             Height="90">
+             Height="100">
     <Grid>
+        <Label Name="NoteBox" HorizontalAlignment="Left" Margin="5,30" Foreground="Gray" FontStyle="Oblique">Note</Label>
         <Label Name="NameBox" Margin="5" FontSize="20">Name</Label>
         <TextBox Name="ValueBox" TextChanging="ValueBox_OnTextChanging" IsReadOnly="False" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Margin="10,0,55,10" Height="32" VerticalContentAlignment="Center"></TextBox>
         <Button Name="MoreButton" Click="MoreButton_OnClick" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Width="35" Height="32" FontSize="17">...</Button>

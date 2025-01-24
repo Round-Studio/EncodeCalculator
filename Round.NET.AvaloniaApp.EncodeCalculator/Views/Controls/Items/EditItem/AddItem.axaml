@@ -16,8 +16,12 @@
                 <TextBox Name="NameBox">NewItem</TextBox>
             </DockPanel>
             <DockPanel Margin="5">
+                <Label Width="90">备注：</Label>
+                <TextBox Name="NoteBox">无备注</TextBox>
+            </DockPanel>
+            <DockPanel Margin="5">
                 <Label Width="90">值：</Label>
-                <TextBox Name="ValueBox"></TextBox>
+                <TextBox Name="ValueBox">0</TextBox>
             </DockPanel>
         </StackPanel>
     </Grid>
