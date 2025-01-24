@@ -14,6 +14,7 @@ namespace Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls;
 public partial class UnitItem : UserControl
 {
     public string uuid { get; set; }
+    public string _value;
 
     public string Name
     {
@@ -30,13 +31,16 @@ public partial class UnitItem : UserControl
     {
         get
         {
-            return ValueBox.Text.ToString();
+            return _value;
         }
         set
         {
-            ValueBox.Text = value;
+            _value = value;
+            ValueBox.Text = value.Replace("\n", "");
         }
     }
+    public string ClassicValue { get; set; }
+    
     public bool IsMain { get; set; } = false;
 
     public UnitItem()
@@ -51,6 +55,7 @@ public partial class UnitItem : UserControl
             var Show = new ContentDialog();
             var Edit = new EditItem(uuid);
             Edit.ContentDialog = Show;
+            
             Show.Title = "编辑项";
             Show.CloseButtonText = "确定";
             Show.PrimaryButtonText = "取消";

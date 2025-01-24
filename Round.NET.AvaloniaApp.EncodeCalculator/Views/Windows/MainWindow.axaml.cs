@@ -18,8 +18,7 @@ public partial class MainWindow : Window
         InitializeComponent();
         _manager = new WindowNotificationManager(this)
         {
-            MaxItems = 10,
-            
+            MaxItems = 2
         };
         _manager.Position = NotificationPosition.BottomRight;
         Core.MainWindow = this;

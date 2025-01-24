@@ -26,6 +26,8 @@ public class ItemMange
             }
         }
 
+        public string ClassicValue { get; set; } = string.Empty;
+
         public string Name
         {
             get
@@ -54,6 +56,7 @@ public class ItemMange
             config.Item.NameBox.Content = config.Name;
             config.Item.IsMain = config.IsMain;
             config.Item.ValueBox.Text = config.Value;
+            config.Item.ClassicValue = config.ClassicValue;
             ItemListBox.Items.Add(config.Item);
         }
         else
@@ -144,5 +147,21 @@ public class ItemMange
             }
         }
         return String.Empty;
+    }
+
+    public static RootConfig GetItemConfigClassByUUID(string uuid)
+    {
+        foreach (var it in Items)
+        {
+            if (it.UUID == uuid)
+            {
+                return it;
+            }
+        }
+        return null;
+    }
+    public static string ClassicValueToValue(string classicvalue)
+    {
+        return classicvalue.Replace("\n", "").Replace("\r", "");
     }
 }

@@ -44,6 +44,7 @@ public partial class ItemsView : UserControl
                 {
                     Value = AddItems.ValueBox.Text,
                     Name = AddItems.NameBox.Text,
+                    ClassicValue = AddItems.ValueBox.Text
                 });
 
                 Core.SetNowModifyTheStatus(true);

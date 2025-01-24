@@ -23,6 +23,7 @@ public class Project
     {
         public string Name { get; set; }
         public string Value { get; set; }
+        public string ClassicValue { get; set; }
         public bool IsMain { get; set; } = false;
     }
     public class SaveProject
@@ -42,7 +43,8 @@ public class Project
                 root.Items.Add(new ItemListClass()
                 {
                     Name = item.Name,
-                    Value = item.Value,
+                    Value = item.Value.Replace("\n","").Replace("\r",""),
+                    ClassicValue = item.ClassicValue.Replace("\n","\\n").Replace("\r","\\r"),
                     IsMain = item.IsMain
                 });
             }
@@ -69,6 +71,7 @@ public class Project
                 {
                     Name = item.Name,
                     Value = item.Value,
+                    ClassicValue = item.ClassicValue,
                     IsMain = item.IsMain
                 });
             }
@@ -85,6 +88,7 @@ public class Project
             {
                 Value = "1+1",
                 Name = "Main",
+                ClassicValue = "1+1",
                 IsMain = true,
             });
             

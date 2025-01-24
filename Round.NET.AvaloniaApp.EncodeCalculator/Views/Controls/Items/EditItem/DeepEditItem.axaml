@@ -1,0 +1,25 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avaloniaEdit="https://github.com/avaloniaui/avaloniaedit"
+             mc:Ignorable="d"
+             x:Class="Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls.Items.EditItem.DeepEditItem">
+    <Grid>
+        <StackPanel Margin="5">
+            <Label Name="NameBox">高级编辑 {name} 项值：</Label>
+            <avaloniaEdit:TextEditor Name="InputBox" ShowLineNumbers="True"
+                                     FontSize="20"
+                                     FontFamily="Cascadia Code"
+                                     Margin="10"
+                                     TextChanged="InputBox_OnTextChanged"/>
+            <DockPanel>
+                <Label VerticalAlignment="Center">插入函数：</Label>
+                <ComboBox Name="FuncBox" Margin="5" SelectedIndex="0">
+                    <ComboBoxItem>(空)</ComboBoxItem>
+                </ComboBox>
+                <Button Margin="5" Name="AddFuncButton" Click="AddFuncButton_OnClick">插入</Button>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

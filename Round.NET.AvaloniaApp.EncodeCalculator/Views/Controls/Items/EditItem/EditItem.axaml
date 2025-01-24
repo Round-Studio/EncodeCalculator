@@ -15,7 +15,8 @@
                 <TextBox Name="ValueBox" TextChanging="ValueBox_OnTextChanging">Value</TextBox>
             </DockPanel>
             <DockPanel>
-                <Button Name="DeleteItem" Click="DeleteItem_OnClick">删除项</Button>
+                <Button Name="DeleteItem" Click="DeleteItem_OnClick" Margin="5,0">删除项</Button>
+                <Button Name="DeepEditButton" Click="DeepEditButton_OnClick" Margin="5,5">高级编辑</Button>
             </DockPanel>
         </StackPanel>
     </Grid>
