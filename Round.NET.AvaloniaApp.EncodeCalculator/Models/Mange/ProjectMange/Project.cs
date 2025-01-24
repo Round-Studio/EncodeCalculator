@@ -26,6 +26,7 @@ public class Project
         public string ClassicValue { get; set; }
         public string Note { get; set; } = "无备注";
         public bool IsMain { get; set; } = false;
+        public Type.Type.NodeType Type { get; set; } = Models.Type.Type.NodeType.Function;
     }
     public class SaveProject
     {
@@ -47,7 +48,8 @@ public class Project
                     Value = item.Value.Replace("\n","").Replace("\r",""),
                     ClassicValue = item.ClassicValue.Replace("\n","\\n").Replace("\r","\\r"),
                     IsMain = item.IsMain,
-                    Note = item.Note
+                    Note = item.Note,
+                    Type = item.Type
                 });
             }
             return root;
@@ -69,14 +71,17 @@ public class Project
 
             foreach (var item in root.Items)
             {
-                ItemMange.AddItem(new ItemMange.RootConfig()
+                if (item.Type == Models.Type.Type.NodeType.Function)
                 {
-                    Name = item.Name,
-                    Value = item.Value,
-                    ClassicValue = item.ClassicValue,
-                    IsMain = item.IsMain,
-                    Note = item.Note
-                });
+                    ItemMange.AddFuncItem(new ItemMange.RootConfig()
+                    {
+                        Name = item.Name,
+                        Value = item.Value,
+                        ClassicValue = item.ClassicValue,
+                        IsMain = item.IsMain,
+                        Note = item.Note
+                    });
+                }
             }
         }
     }
@@ -87,7 +92,7 @@ public class Project
         {
             Edit.Edit.EditMode = true;
             ItemMange.ClearItems();
-            ItemMange.AddItem(new ItemMange.RootConfig()
+            ItemMange.AddFuncItem(new ItemMange.RootConfig()
             {
                 Value = "1+1",
                 Name = "Main",

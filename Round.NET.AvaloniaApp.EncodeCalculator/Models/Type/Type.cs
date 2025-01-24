@@ -4,7 +4,7 @@ public class Type
 {
     public enum NodeType
     {
-        Function,
-        Variable
+        Function, // 函数
+        Comparison // 比较
     }
 }

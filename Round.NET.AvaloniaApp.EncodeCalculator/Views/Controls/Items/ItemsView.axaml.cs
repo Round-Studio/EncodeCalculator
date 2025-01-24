@@ -11,7 +11,10 @@ using Round.NET.AvaloniaApp.EncodeCalculator.Models.Config;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage.ProjectMange;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.Runner;
+using Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls.Items.EditItem.CompItems;
+using Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls.Items.ItemControls;
 using Round.NET.AvaloniaApp.EncodeCalculator.Views.Pages.SubPages;
+using Type = Round.NET.AvaloniaApp.EncodeCalculator.Models.Type.Type;
 
 namespace Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls;
 
@@ -23,36 +26,6 @@ public partial class ItemsView : UserControl
         ItemMange.ItemListBox = this.ItemListBox;
         
         Project.NewProject.NewProjectCore();
-    }
-
-    private void AddNewItemButton_OnClick(object? sender, RoutedEventArgs e)
-    {
-        var AddItems = new AddItem();
-        
-        ContentDialog Show = new ContentDialog();
-        Show.Title = "添加新项";
-        Show.PrimaryButtonText = "添加";
-        Show.CloseButtonText = "取消";
-        Show.Content = AddItems;
-        
-        Show.DefaultButton = ContentDialogButton.Primary;
-        Show.PrimaryButtonClick += (dialog, args) =>
-        {
-            if (!string.IsNullOrWhiteSpace(AddItems.ValueBox.Text))
-            {
-                ItemMange.AddItem(new ItemMange.RootConfig()
-                {
-                    Value = AddItems.ValueBox.Text,
-                    Name = AddItems.NameBox.Text,
-                    Note = AddItems.NoteBox.Text,
-                    ClassicValue = AddItems.ValueBox.Text
-                });
-
-                Core.SetNowModifyTheStatus(true);
-            }
-        };
-        
-        Show.ShowAsync(Core.MainWindow);
     }
 
     private void RunButton_OnClick(object? sender, RoutedEventArgs e)
@@ -108,5 +81,53 @@ public partial class ItemsView : UserControl
             Show.DefaultButton = ContentDialogButton.Close;
             Show.ShowAsync(Core.MainWindow);
         });
+    }
+    private void AddNewItemButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var AddItems = new AddItem();
+        
+        ContentDialog Show = new ContentDialog();
+        Show.Title = "添加新表达式项";
+        Show.PrimaryButtonText = "添加";
+        Show.CloseButtonText = "取消";
+        Show.Content = AddItems;
+        
+        Show.DefaultButton = ContentDialogButton.Primary;
+        Show.PrimaryButtonClick += (dialog, args) =>
+        {
+            if (!string.IsNullOrWhiteSpace(AddItems.ValueBox.Text))
+            {
+                ItemMange.AddFuncItem(new ItemMange.RootConfig()
+                {
+                    Value = AddItems.ValueBox.Text,
+                    Name = AddItems.NameBox.Text,
+                    Note = AddItems.NoteBox.Text,
+                    ClassicValue = AddItems.ValueBox.Text,
+                    Type = Type.NodeType.Function
+                });
+
+                Core.SetNowModifyTheStatus(true);
+            }
+        };
+        
+        Show.ShowAsync(Core.MainWindow);
+    }
+    private void AddCompButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var AddItems = new AddCompItem();
+        
+        ContentDialog Show = new ContentDialog();
+        Show.Title = "添加新逻辑表达式项";
+        Show.PrimaryButtonText = "添加";
+        Show.CloseButtonText = "取消";
+        Show.Content = AddItems;
+        
+        Show.DefaultButton = ContentDialogButton.Primary;
+        Show.PrimaryButtonClick += (dialog, args) =>
+        {
+            ItemMange.AddCompItem();
+        };
+        
+        Show.ShowAsync(Core.MainWindow);
     }
 }

@@ -1,0 +1,37 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:HeroIconsAvalonia.Controls;assembly=HeroIconsAvalonia"
+             mc:Ignorable="d"
+             x:Class="Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls.Items.ItemControls.ComparisonItem"
+             Width="300"
+             Height="220">
+    <Grid>
+        <controls:HeroIcon Name="IconBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10" Height="20" Width="20" Foreground="White" Type="Scale"/>
+        <Label Name="NoteBox" HorizontalAlignment="Left" Margin="5,31" Foreground="Gray" FontStyle="Oblique">Note</Label>
+        <Label Name="NameBox" Margin="35,1" FontSize="22">Name</Label>
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,60">
+            <DockPanel Margin="5">
+                <Label VerticalAlignment="Center">表达式 1：</Label>
+                <TextBox Name="ValueBox1" IsReadOnly="False" Height="32"></TextBox>
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label VerticalAlignment="Center">表达式 2：</Label>
+                <TextBox Name="ValueBox2" IsReadOnly="False" Height="32"></TextBox>
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label VerticalAlignment="Center" Margin="-1,0">条件判断：</Label>
+                <ComboBox Name="ValueBox3" Height="32" HorizontalAlignment="Stretch">
+                    <ComboBoxItem>==</ComboBoxItem>
+                    <ComboBoxItem>!=</ComboBoxItem>
+                    <ComboBoxItem>&gt;=</ComboBoxItem>
+                    <ComboBoxItem>&lt;=</ComboBoxItem>
+                    <ComboBoxItem>&gt;</ComboBoxItem>
+                    <ComboBoxItem>&lt;</ComboBoxItem>
+                </ComboBox>
+            </DockPanel>
+            <Label Foreground="Gray" HorizontalAlignment="Center">值为true返回 表达式1 ; 反之为 表达式2.</Label>
+        </StackPanel>
+    </Grid>
+</UserControl>

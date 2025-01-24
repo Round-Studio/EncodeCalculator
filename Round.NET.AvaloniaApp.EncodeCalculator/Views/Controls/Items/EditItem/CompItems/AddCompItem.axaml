@@ -1,0 +1,39 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls.Items.EditItem.CompItems.AddCompItem">
+    <Grid>
+        <StackPanel>
+            <DockPanel Margin="5">
+                <Label Width="90" VerticalAlignment="Center">名称：</Label>
+                <TextBox Name="NameBox">NewComparisonItem</TextBox>
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label Width="90" VerticalAlignment="Center">备注：</Label>
+                <TextBox Name="NoteBox">无备注</TextBox>
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label Width="90" VerticalAlignment="Center">表达式 1：</Label>
+                <TextBox Name="ValueBox1" IsReadOnly="False" Height="32"></TextBox>
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label Width="90" VerticalAlignment="Center">表达式 2：</Label>
+                <TextBox Name="ValueBox2" IsReadOnly="False" Height="32"></TextBox>
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label Width="90" VerticalAlignment="Center">条件判断：</Label>
+                <ComboBox Name="ValueBox3" Height="32" HorizontalAlignment="Stretch" SelectedIndex="0">
+                    <ComboBoxItem>==</ComboBoxItem>
+                    <ComboBoxItem>!=</ComboBoxItem>
+                    <ComboBoxItem>&gt;=</ComboBoxItem>
+                    <ComboBoxItem>&lt;=</ComboBoxItem>
+                    <ComboBoxItem>&gt;</ComboBoxItem>
+                    <ComboBoxItem>&lt;</ComboBoxItem>
+                </ComboBox>
+            </DockPanel>
+            <Label Foreground="Gray" HorizontalAlignment="Center">值为true返回 表达式1 ; 反之为 表达式2.</Label>
+        </StackPanel>
+    </Grid>
+</UserControl>

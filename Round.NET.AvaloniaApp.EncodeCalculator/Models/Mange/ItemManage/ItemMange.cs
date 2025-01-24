@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
 using Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls;
+using Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls.Items.ItemControls;
 
 namespace Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage;
 
@@ -52,11 +53,11 @@ public class ItemMange
         }
         public UnitItem Item { get; set; } = new UnitItem();
         public string UUID { get; set; }
-        public int Type { get; set; } = 0;
+        public Type.Type.NodeType Type { get; set; } = Models.Type.Type.NodeType.Function;
         public bool IsMain { get; set; } = false;
     }
 
-    public static void AddItem(RootConfig config)
+    public static void AddFuncItem(RootConfig config)
     {
         if (!Deduplication.DeduplicationItem(config.Name))
         {
@@ -83,6 +84,10 @@ public class ItemMange
                 Show.ShowAsync(Core.MainWindow);
             });
         }
+    }
+    public static void AddCompItem() // 未完成!!!!!!!!!!!!!!!!!!!!!!!
+    {
+        ItemListBox.Items.Add(new ComparisonItem());
     }
 
     public static void ClearItems()

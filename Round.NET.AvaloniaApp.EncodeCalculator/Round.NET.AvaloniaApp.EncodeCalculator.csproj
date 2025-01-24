@@ -24,20 +24,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\Controls\Items\ItemControls\UnitItem.axaml.cs">
+      <DependentUpon>UnitItem.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Controls\Items\ItemsView.axaml.cs">
       <DependentUpon>ItemsView.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Controls\Items\UnitItem.axaml.cs">
-      <DependentUpon>UnitItem.axaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Controls\Items\EditItem\EditItem.axaml.cs">
-      <DependentUpon>EditItem.axaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Controls\Items\EditItem\AddItem.axaml.cs">
+    <Compile Update="Views\Controls\Items\EditItem\FunItems\AddItem.axaml.cs">
       <DependentUpon>AddItem.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Controls\Items\EditItem\FunItems\DeepEditItem.axaml.cs">
+      <DependentUpon>DeepEditItem.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Controls\Items\EditItem\FunItems\EditItem.axaml.cs">
+      <DependentUpon>EditItem.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
