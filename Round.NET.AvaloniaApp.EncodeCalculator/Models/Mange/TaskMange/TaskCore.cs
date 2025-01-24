@@ -27,9 +27,17 @@ public class TaskCore
                     {
                         Task.Run(()=>action.action(action.uuid));
                     }
-                    
+                    Thread.Sleep(10);
                 }
             });
+            TaskThread.Start();
+        }else if (TaskThread.IsAlive)
+        {
+            TaskThread.Abort();
+        }
+        else
+        {
+            TaskThread.Start();
         }
     }
 

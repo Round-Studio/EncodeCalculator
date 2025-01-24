@@ -8,9 +8,11 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models;
+using Round.NET.AvaloniaApp.EncodeCalculator.Models.Config;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.Edit;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage.ProjectMange;
+using Round.NET.AvaloniaApp.EncodeCalculator.Models.Mange.TaskMange;
 using Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls;
 
 namespace Round.NET.AvaloniaApp.EncodeCalculator.Views;
@@ -21,6 +23,18 @@ public partial class MainView : UserControl
     {
         InitializeComponent();
         Core.OutBox = OutBox;
+        int sizes = 20;
+        TaskCore.RegisterAction((uuid) =>
+        {
+            if (Config.MainConfig.OutBoxFontSize != sizes)
+            {
+                Dispatcher.UIThread.Invoke(() =>
+                {
+                    OutBox.FontSize = Config.MainConfig.OutBoxFontSize;
+                    sizes = Config.MainConfig.OutBoxFontSize;
+                });
+            }
+        });
     }
 
     private void CopyButton_OnClick(object? sender, RoutedEventArgs e)
