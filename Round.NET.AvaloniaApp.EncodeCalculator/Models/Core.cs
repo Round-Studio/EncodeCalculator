@@ -73,11 +73,11 @@ public class Core
     {
         if (_ModifyTheStatus)
         {
-            MainWindow.Title = $"REC - 可编码计算器 - *[{Core.ProjectName}]";
+            MainWindow.Title = $"REC - 可编码计算器{Update.Update.GetCurrentVersion()} - *[{Core.ProjectName}]";
         }
         else
         {
-            MainWindow.Title = $"REC - 可编码计算器 - [{Core.ProjectName}]";
+            MainWindow.Title = $"REC - 可编码计算器{Update.Update.GetCurrentVersion()} - [{Core.ProjectName}]";
         }
     }
 

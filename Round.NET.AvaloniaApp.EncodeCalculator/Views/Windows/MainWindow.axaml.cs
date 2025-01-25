@@ -27,6 +27,8 @@ public partial class MainWindow : Window
         {
             UpdateFunc();
         }
+
+        // BackUpdate.RefreshUpdateConfig();
         
         _manager = new WindowNotificationManager(this)
         {
@@ -35,6 +37,7 @@ public partial class MainWindow : Window
         _manager.Position = NotificationPosition.BottomRight;
         Core.MainWindow = this;
         this.Title = $"REC - 可编码计算器 - [{Project.DEFAULT_FILE_NAME}]";
+        Core.RefreshTitle();
     }
 
     public void UpdateFunc(bool abo = false)

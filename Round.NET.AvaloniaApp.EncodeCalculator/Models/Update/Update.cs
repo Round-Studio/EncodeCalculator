@@ -20,6 +20,7 @@ public class Update
     private static readonly HttpClient client = new HttpClient();
     private static readonly string repoUrl = "https://api.github.com/repos/Round-Studio/Round.NET.AvaloniaApp.EncodeCalculator/releases/latest";
     private static JObject releaseInfo;
+    public const string UpdateDirPath = "..\\REC.Update";
     public static string GetCurrentVersion()
     {
         // 获取当前程序的版本号
@@ -41,7 +42,7 @@ public class Update
         try
         {
             // 添加User-Agent头
-            client.DefaultRequestHeaders.Add("User-Agent", "YourApp-Name");
+            client.DefaultRequestHeaders.Add("User-Agent", "REC-Web-UpdateService");
 
             // 获取当前程序的版本号
             string currentVersion = GetCurrentVersion();
@@ -70,8 +71,7 @@ public class Update
     public static async Task UpdateCore(ProgressBar bar,ContentDialog shd,Label jd)
     {
         // 获取系统架构
-        string architecture = RuntimeInformation.ProcessArchitecture.ToString().ToLower();
-        string installerName = GetInstallerName(architecture);
+        string installerName = GetInstallerName(RuntimeInformation.ProcessArchitecture.ToString().ToLower());
 
         if (string.IsNullOrEmpty(installerName))
         {
@@ -95,7 +95,7 @@ public class Update
         }
     }
 
-    private static string GetInstallerName(string architecture)
+    public static string GetInstallerName(string architecture)
     {
         switch (architecture)
         {
@@ -140,8 +140,8 @@ public class Update
             };
 
             // 确保文件路径有效
-            Directory.CreateDirectory("Update");
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), $"Update/{GetNewVersion()}{fileName}");
+            Directory.CreateDirectory(UpdateDirPath);
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), $"{UpdateDirPath}/{GetNewVersion()}{fileName}");
             Console.WriteLine($"开始下载文件到: {filePath}");
 
             if (Config.Config.MainConfig.UpdateChannelAcceleration)

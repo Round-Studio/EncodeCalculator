@@ -15,8 +15,6 @@
                         <Label>程序名称：Round Encode Calculator</Label>
                         <Label>程序包名：Round.NET.AvaloniaApp.EncodeCalculator</Label>
                         <Label>归属组织：Round Studio</Label>
-                        <Label Name="VersionBox">当前版本：{Version}</Label>
-                        <Button Name="UpdateButton" Click="UpdateButton_OnClick" Margin="5">检查更新</Button>
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -98,6 +96,17 @@
                         </StackPanel>
                     </DockPanel>
                 </StackPanel>
+            </TabItem>
+            <TabItem Header="更新">
+                <Grid>
+                    <StackPanel>
+                        <Label Name="VersionBox">当前版本：{Version}</Label>
+                        <DockPanel>
+                            <Button Name="UpdateButton" Click="UpdateButton_OnClick" Margin="5">检查更新</Button>
+                            <Button Name="BackUpdateButton" Click="BackUpdateButton_OnClick" Margin="5">更新回滚</Button>
+                        </DockPanel>
+                    </StackPanel>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

@@ -1,0 +1,16 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls.BackUpdatePage">
+    <Grid>
+        <StackPanel Margin="5">
+            <Label>您正在回滚更新！</Label>
+            <Label>感谢您使用当前版本，如果您往下更新版本，可能会导致程序配置出错，导致所有工程失效！</Label>
+            <Label>如果您现在反悔，可以立即关闭窗口以阻止更新回滚！</Label>
+            <Label Name="jd">进度：0%</Label>
+            <ProgressBar Margin="5" Name="ProgressBarBox"></ProgressBar>
+        </StackPanel>
+    </Grid>
+</UserControl>

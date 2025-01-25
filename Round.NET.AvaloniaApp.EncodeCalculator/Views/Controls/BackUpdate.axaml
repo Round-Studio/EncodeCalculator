@@ -1,0 +1,18 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+             mc:Ignorable="d"
+             Width="500"
+             Height="320"
+             x:Class="Round.NET.AvaloniaApp.EncodeCalculator.Views.Controls.BackUpdate">
+    <Grid>
+        <ScrollViewer Name="StackPanelListBox">
+            <StackPanel Name="LoadBox">
+                <controls:ProgressRing Margin="10"></controls:ProgressRing>
+                <Label HorizontalAlignment="Center">加载版本中...</Label>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
