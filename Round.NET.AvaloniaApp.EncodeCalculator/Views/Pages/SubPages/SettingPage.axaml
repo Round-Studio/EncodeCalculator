@@ -26,6 +26,10 @@
                     <Label VerticalAlignment="Center">更新渠道加速：</Label>
                     <CheckBox Name="UpdateChannelAccelerationBox">加速</CheckBox>
                 </DockPanel>
+                <DockPanel>
+                    <Label VerticalAlignment="Center">自动更新检测：</Label>
+                    <CheckBox Name="AutoUpdateBox">加速</CheckBox>
+                </DockPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

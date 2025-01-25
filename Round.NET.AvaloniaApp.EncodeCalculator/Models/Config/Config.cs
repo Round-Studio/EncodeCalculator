@@ -19,6 +19,7 @@ public class Config
             true
         };
         public bool UpdateChannelAcceleration { get; set; } = true;
+        public bool AutomaticUpdates { get; set; } = true;
     }
 
     public static void LoadConfig()

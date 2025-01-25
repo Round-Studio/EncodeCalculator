@@ -33,6 +33,7 @@ public partial class SettingPage : UserControl
         
         FontSizeBar.Value = _config.OutBoxFontSize;
         UpdateChannelAccelerationBox.IsChecked = _config.UpdateChannelAcceleration;
+        AutoUpdateBox.IsChecked = _config.AutomaticUpdates;
     }
 
     public void GetConfig()
@@ -43,6 +44,7 @@ public partial class SettingPage : UserControl
         
         _config.OutBoxFontSize = (int)FontSizeBar.Value;
         _config.UpdateChannelAcceleration = (bool)UpdateChannelAccelerationBox.IsChecked;
+        _config.AutomaticUpdates = (bool)AutoUpdateBox.IsChecked;
     }
     
     public SettingPage()
