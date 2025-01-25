@@ -25,7 +25,7 @@ public class Update
         // 获取当前程序的版本号
         Assembly assembly = Assembly.GetExecutingAssembly();
         FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-        return fvi.ProductVersion;
+        return $"v{fvi.ProductVersion.Split('+')[0]}";
     }
 
     public static string GetNewVersion()
@@ -123,7 +123,7 @@ public class Update
                 ChunkCount = 256,
                 MaxTryAgainOnFailover = 5,
                 ParallelDownload = true,
-                ParallelCount = 256,
+                ParallelCount = 10,
                 Timeout = 1000,
                 ClearPackageOnCompletionWithFailure = true,
                 MinimumSizeOfChunking = 64,
