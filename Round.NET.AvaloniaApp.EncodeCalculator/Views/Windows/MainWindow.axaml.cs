@@ -37,54 +37,71 @@ public partial class MainWindow : Window
         this.Title = $"REC - 可编码计算器 - [{Project.DEFAULT_FILE_NAME}]";
     }
 
-    public void UpdateFunc()
+    public void UpdateFunc(bool abo = false)
     {
         Task.Run(() =>
+        {
+            if (Update.GetUpdate())
+            {
+                Dispatcher.UIThread.Invoke(() =>
+                {
+                    // Update.UpdateCore();   
+
+                    ContentDialog sh = new ContentDialog();
+                    sh.Title = "更新";
+                    sh.DefaultButton = ContentDialogButton.Close;
+                    sh.PrimaryButtonText = "取消";
+                    sh.CloseButtonText = "确定";
+                    sh.Content = new StackPanel()
                     {
-                        if (Update.GetUpdate())
+                        Children =
                         {
-                            Dispatcher.UIThread.Invoke(() =>
+                            new Label()
                             {
-                                // Update.UpdateCore();   
-            
-                                ContentDialog sh = new ContentDialog();
-                                sh.Title = "更新";
-                                sh.DefaultButton = ContentDialogButton.Close;
-                                sh.PrimaryButtonText = "取消";
-                                sh.CloseButtonText = "确定";
-                                sh.Content = new StackPanel()
-                                {
-                                    Children =
-                                    {
-                                        new Label()
-                                        {
-                                            Content = "您好！我们需要花费您一些时间以完成此次更新！"
-                                        },
-                                        new Label()
-                                        {
-                                            Content = $"当前版本：{Update.GetCurrentVersion()}"
-                                        },
-                                        new Label()
-                                        {
-                                            Content = $"更新版本：{Update.GetNewVersion()}"
-                                        },
-                                        new Label()
-                                        {
-                                            Content = $"更新时间：{Update.GetNewVersionTime()}"
-                                        }
-                                    }
-                                };
-                                sh.CloseButtonClick += (_, __) =>
-                                {
-                                    var shc = new ContentDialog();
-                                    shc.Title = "更新";
-                                    shc.Content = new Controls.Update();
-                                    shc.ShowAsync(this);
-                                };
-                                sh.ShowAsync(this);
-                            });
+                                Content = "您好！我们需要花费您一些时间以完成此次更新！"
+                            },
+                            new Label()
+                            {
+                                Content = $"当前版本：{Update.GetCurrentVersion()}"
+                            },
+                            new Label()
+                            {
+                                Content = $"更新版本：{Update.GetNewVersion()}"
+                            },
+                            new Label()
+                            {
+                                Content = $"更新时间：{Update.GetNewVersionTime()}"
+                            }
                         }
+                    };
+                    sh.CloseButtonClick += (_, __) =>
+                    {
+                        var shc = new ContentDialog();
+                        shc.Title = "更新";
+                        shc.Content = new Controls.Update();
+                        shc.ShowAsync(this);
+                    };
+                    sh.ShowAsync(this);
+                });
+            }
+            else
+            {
+                if (abo)
+                {
+                    Dispatcher.UIThread.Invoke(() =>
+                    {
+                        // Update.UpdateCore();   
+
+                        ContentDialog sh = new ContentDialog();
+                        sh.Title = "更新";
+                        sh.DefaultButton = ContentDialogButton.Close;
+                        sh.CloseButtonText = "确定";
+                        sh.Content = @"当前已是最新版本！";
+                        sh.ShowAsync(this);
                     });
+                }
+            }
+        });
     }
     public void ShowMessage(string message, string title, NotificationType type = NotificationType.Information)
     {

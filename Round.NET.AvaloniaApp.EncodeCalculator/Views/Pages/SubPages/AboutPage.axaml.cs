@@ -17,6 +17,6 @@ public partial class AboutPage : UserControl
 
     private void UpdateButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        Core.MainWindow.UpdateFunc();
+        Core.MainWindow.UpdateFunc(true);
     }
 }

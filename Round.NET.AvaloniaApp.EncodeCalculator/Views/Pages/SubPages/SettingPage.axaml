@@ -28,7 +28,7 @@
                 </DockPanel>
                 <DockPanel>
                     <Label VerticalAlignment="Center">自动更新检测：</Label>
-                    <CheckBox Name="AutoUpdateBox">加速</CheckBox>
+                    <CheckBox Name="AutoUpdateBox">自动更新</CheckBox>
                 </DockPanel>
             </StackPanel>
         </ScrollViewer>
