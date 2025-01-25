@@ -72,8 +72,8 @@ public partial class EditItem : UserControl
             UnitItem.ClassicValue = Show.InputBox.Text;
             
             var it = ItemMange.GetItemConfigClassByUUID(UnitItem.uuid);
-            it.ClassicValue = UnitItem.ClassicValue;
-            it.Value = UnitItem.Value;
+            it.FuncItem.ClassicValue = UnitItem.ClassicValue;
+            it.FuncItem.Value = UnitItem.Value;
         };
         ContentDialog.ShowAsync(Core.MainWindow);
     }

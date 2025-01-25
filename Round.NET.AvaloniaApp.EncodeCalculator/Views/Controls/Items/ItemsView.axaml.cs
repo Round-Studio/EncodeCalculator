@@ -97,13 +97,12 @@ public partial class ItemsView : UserControl
         {
             if (!string.IsNullOrWhiteSpace(AddItems.ValueBox.Text))
             {
-                ItemMange.AddFuncItem(new ItemMange.RootConfig()
+                ItemMange.AddFuncItem(new ItemMange.FuncItemConfig()
                 {
                     Value = AddItems.ValueBox.Text,
                     Name = AddItems.NameBox.Text,
                     Note = AddItems.NoteBox.Text,
-                    ClassicValue = AddItems.ValueBox.Text,
-                    Type = Type.NodeType.Function
+                    ClassicValue = AddItems.ValueBox.Text
                 });
 
                 Core.SetNowModifyTheStatus(true);
@@ -125,7 +124,14 @@ public partial class ItemsView : UserControl
         Show.DefaultButton = ContentDialogButton.Primary;
         Show.PrimaryButtonClick += (dialog, args) =>
         {
-            ItemMange.AddCompItem();
+            ItemMange.AddCompItem(new ItemMange.CompItemConfig()
+            {
+                Name = AddItems.NameBox.Text,
+                Note = AddItems.NoteBox.Text,
+                Value2 = AddItems.ValueBox2.Text,
+                Value1 = AddItems.ValueBox1.Text,
+                CompareType = AddItems.CompareType
+            });
         };
         
         Show.ShowAsync(Core.MainWindow);

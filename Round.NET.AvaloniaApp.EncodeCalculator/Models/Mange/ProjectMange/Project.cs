@@ -19,13 +19,27 @@ public class Project
         public string Time { get; set; } = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         public List<ItemListClass> Items { get; set; } = new List<ItemListClass>();
     }
-    public class ItemListClass
+    
+    public class FuncItem
     {
         public string Name { get; set; }
         public string Value { get; set; }
         public string ClassicValue { get; set; }
         public string Note { get; set; } = "无备注";
         public bool IsMain { get; set; } = false;
+    }
+    public class CompItem
+    {
+        public string Name { get; set; }
+        public string Value1 { get; set; }
+        public string Value2 { get; set; }
+        public string CompareTypes { get; set; }
+        public string Note { get; set; } = "无备注";
+    }
+    public class ItemListClass
+    {
+        public FuncItem Item { get; set; } = new FuncItem();
+        public CompItem CompItem { get; set; } = new CompItem();
         public Type.Type.NodeType Type { get; set; } = Models.Type.Type.NodeType.Function;
     }
     public class SaveProject
@@ -42,15 +56,37 @@ public class Project
             var root = new Root();
             foreach (var item in ItemMange.Items)
             {
-                root.Items.Add(new ItemListClass()
+                if (item.Type == Models.Type.Type.NodeType.Function)
                 {
-                    Name = item.Name,
-                    Value = item.Value.Replace("\n","").Replace("\r",""),
-                    ClassicValue = item.ClassicValue.Replace("\n","\\n").Replace("\r","\\r"),
-                    IsMain = item.IsMain,
-                    Note = item.Note,
-                    Type = item.Type
-                });
+                    root.Items.Add(new ItemListClass()
+                    {
+                        Item = new FuncItem()
+                        {
+                            Name = item.FuncItem.Name,
+                            Value = item.FuncItem.Value.Replace("\n","").Replace("\r",""),
+                            ClassicValue = item.FuncItem.ClassicValue.Replace("\n","\\n").Replace("\r","\\r"),
+                            IsMain = item.FuncItem.IsMain,
+                            Note = item.FuncItem.Note
+                        },
+                    
+                        Type = item.Type   
+                    });   
+                }
+                else
+                {
+                    root.Items.Add(new ItemListClass()
+                    {
+                        CompItem = new CompItem()
+                        {
+                            Name = item.CompItem.Name,
+                            Value1 = item.CompItem.Value1,
+                            Value2 = item.CompItem.Value2,
+                            Note = item.CompItem.Note
+                        },
+                    
+                        Type = item.Type   
+                    });
+                }
             }
             return root;
         }
@@ -73,13 +109,23 @@ public class Project
             {
                 if (item.Type == Models.Type.Type.NodeType.Function)
                 {
-                    ItemMange.AddFuncItem(new ItemMange.RootConfig()
+                    ItemMange.AddFuncItem(new ItemMange.FuncItemConfig()
                     {
-                        Name = item.Name,
-                        Value = item.Value,
-                        ClassicValue = item.ClassicValue,
-                        IsMain = item.IsMain,
-                        Note = item.Note
+                        Name = item.Item.Name,
+                        Value = item.Item.Value,
+                        ClassicValue = item.Item.ClassicValue,
+                        IsMain = item.Item.IsMain,
+                        Note = item.Item.Note
+                    });
+                }
+                else if (item.Type == Models.Type.Type.NodeType.Comparison)
+                {
+                    ItemMange.AddCompItem(new ItemMange.CompItemConfig()
+                    {
+                        Name = item.CompItem.Name,
+                        Value1 = item.CompItem.Value1,
+                        Value2 = item.CompItem.Value2,
+                        Note = item.CompItem.Note
                     });
                 }
             }
@@ -92,7 +138,7 @@ public class Project
         {
             Edit.Edit.EditMode = true;
             ItemMange.ClearItems();
-            ItemMange.AddFuncItem(new ItemMange.RootConfig()
+            ItemMange.AddFuncItem(new ItemMange.FuncItemConfig()
             {
                 Value = "1+1",
                 Name = "Main",

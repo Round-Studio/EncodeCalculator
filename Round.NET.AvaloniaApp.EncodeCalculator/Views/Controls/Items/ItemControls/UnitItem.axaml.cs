@@ -17,16 +17,18 @@ public partial class UnitItem : UserControl
     public string uuid { get; set; }
     public string _value;
     public string _note = "无备注";
+    private string _name;
 
     public string Name
     {
         get
         {
-            return NameBox.Content.ToString();
+            return _name;
         }
         set
         {
             NameBox.Content = value;
+            _name = value;
         }
     }
     public string Note

@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Reactive.Disposables;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
+using Avalonia.Threading;
 using EncodeCalculator.SuffixExpressionsCalculating;
+using FluentAvalonia.UI.Controls;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.Config;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage.ProjectMange;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.Mange.TaskMange;
+using Round.NET.AvaloniaApp.EncodeCalculator.Models.Update;
 
 namespace Round.NET.AvaloniaApp.EncodeCalculator.Views;
 
@@ -18,6 +23,52 @@ public partial class MainWindow : Window
         TaskCore.InitTaskCore();
         
         InitializeComponent();
+        Task.Run(() =>
+        {
+            if (Update.GetUpdate())
+            {
+                Dispatcher.UIThread.Invoke(() =>
+                {
+                    // Update.UpdateCore();   
+
+                    ContentDialog sh = new ContentDialog();
+                    sh.Title = "更新";
+                    sh.DefaultButton = ContentDialogButton.Close;
+                    sh.PrimaryButtonText = "取消";
+                    sh.CloseButtonText = "确定";
+                    sh.Content = new StackPanel()
+                    {
+                        Children =
+                        {
+                            new Label()
+                            {
+                                Content = "您好！我们需要花费您一些时间以完成此次更新！"
+                            },
+                            new Label()
+                            {
+                                Content = $"当前版本：{Update.GetCurrentVersion()}"
+                            },
+                            new Label()
+                            {
+                                Content = $"更新版本：{Update.GetNewVersion()}"
+                            },
+                            new Label()
+                            {
+                                Content = $"更新时间：{Update.GetNewVersionTime()}"
+                            }
+                        }
+                    };
+                    sh.CloseButtonClick += (_, __) =>
+                    {
+                        var shc = new ContentDialog();
+                        shc.Title = "更新";
+                        shc.Content = new Controls.Update();
+                        shc.ShowAsync(this);
+                    };
+                    sh.ShowAsync(this);
+                });
+            }
+        });
         _manager = new WindowNotificationManager(this)
         {
             MaxItems = 2
@@ -62,5 +113,10 @@ public partial class MainWindow : Window
         {
             _manager.Show(new Notification(message, title, type));
         }
+    }
+
+    private void Window_OnClosing(object? sender, WindowClosingEventArgs e)
+    {
+        Environment.Exit(0); // 参数0表示正常退出
     }
 }

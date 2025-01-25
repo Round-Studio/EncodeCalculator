@@ -36,41 +36,77 @@ public class RunCalculator
     {
         foreach (var Item in ItemManage.ItemMange.Items)
         {
-            if (expression.Contains($"{Item.Name}()"))
+            if (Item.Type == Type.Type.NodeType.Function)
             {
-                return true;
+                if (expression.Contains($"{Item.FuncItem.Name}()"))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (expression.Contains($"{Item.CompItem.Name}()"))
+                {
+                    return true;
+                }
             }
         }
         return false;
     }
     public static string GetFormula(string formula)//获取表达式
     {
-        var result = formula;
-        
-        foreach (var Item in ItemManage.ItemMange.Items)
+        if (TheNumberOfRecursions > 100)//判断递归次数
         {
-            var fors = ReplaceFunction(result, Item.Name, () => Item.Value); //取替换结果
-            if (fors != null)
-            {
-                result = fors;
-            }
-            else
-            {
-                return null;
-            }
+            return string.Empty;
         }
-        
-        if (DetermineWhetherAFunctionExists(result))
+        else
         {
-            var res = GetFormula(result);
-            if (res == null)
+            var result = formula;
+            TheNumberOfRecursions++;
+        
+            foreach (var Item in ItemManage.ItemMange.Items)
             {
-                return null;
-            }
+                if (Item.Type == Type.Type.NodeType.Function)
+                {
+                    var fors = ReplaceFunction(result, Item.FuncItem.Name, () => Item.FuncItem.Value); //取替换结果
             
-            return GetFormula(result);//返回，true为有剩余，false为没有剩余
+                    if (fors != null)
+                    {
+                        result = fors;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(Item.CompItem.Value1) && !string.IsNullOrEmpty(Item.CompItem.Value2))
+                    {
+                        var for1 = GetFormula(Item.CompItem.Value1);
+                        var for2 = GetFormula(Item.CompItem.Value2);
+                
+                        Console.WriteLine(for1 + "," + for2);
+                        result = null;
+                    }
+                }
+            }
+        
+            if (!string.IsNullOrEmpty(result))
+            {
+                if (DetermineWhetherAFunctionExists(result))
+                {
+                    var res = GetFormula(result);
+                    if (string.IsNullOrEmpty(res))
+                    {
+                        return null;
+                    }
+            
+                    return GetFormula(result);//返回，true为有剩余，false为没有剩余
+                }
+            }
+            return result;//返回
         }
-        return result;//返回
     }
     private static string ReplaceFunction(string expression, string functionName, Func<string> replacement)//替换函数项为表达式
     {

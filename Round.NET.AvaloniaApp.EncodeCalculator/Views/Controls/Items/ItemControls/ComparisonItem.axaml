@@ -14,15 +14,15 @@
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,60">
             <DockPanel Margin="5">
                 <Label VerticalAlignment="Center">表达式 1：</Label>
-                <TextBox Name="ValueBox1" IsReadOnly="False" Height="32"></TextBox>
+                <TextBox Name="ValueBox1" IsReadOnly="False" Height="32" TextChanging="ValueBox_OnTextChanging">1+1</TextBox>
             </DockPanel>
             <DockPanel Margin="5">
                 <Label VerticalAlignment="Center">表达式 2：</Label>
-                <TextBox Name="ValueBox2" IsReadOnly="False" Height="32"></TextBox>
+                <TextBox Name="ValueBox2" IsReadOnly="False" Height="32"  TextChanging="ValueBox_OnTextChanging">1+1</TextBox>
             </DockPanel>
             <DockPanel Margin="5">
                 <Label VerticalAlignment="Center" Margin="-1,0">条件判断：</Label>
-                <ComboBox Name="ValueBox3" Height="32" HorizontalAlignment="Stretch">
+                <ComboBox Name="ValueBox3" SelectedIndex="0" Height="32" HorizontalAlignment="Stretch">
                     <ComboBoxItem>==</ComboBoxItem>
                     <ComboBoxItem>!=</ComboBoxItem>
                     <ComboBoxItem>&gt;=</ComboBoxItem>

@@ -1,58 +1,79 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+using Avalonia.Controls;
+using Avalonia.Threading;
 using Downloader;
+using FluentAvalonia.UI.Controls;
+using Newtonsoft.Json.Linq;
 
-class Program
+namespace Round.NET.AvaloniaApp.EncodeCalculator.Models.Update;
+
+public class Update
 {
     private static readonly HttpClient client = new HttpClient();
     private static readonly string repoUrl = "https://api.github.com/repos/Round-Studio/Round.NET.AvaloniaApp.EncodeCalculator/releases/latest";
-    private static readonly string currentVersion = "AutoPublish-2025-01-24.15-47-041"; // 当前版本号
+    private static JObject releaseInfo;
+    public static string GetCurrentVersion()
+    {
+        // 获取当前程序的版本号
+        Assembly assembly = Assembly.GetExecutingAssembly();
+        FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+        return fvi.ProductVersion;
+    }
 
-    static async Task Main(string[] args)
+    public static string GetNewVersion()
+    {
+        return releaseInfo["name"].ToString();
+    }
+    public static string GetNewVersionTime()
+    {
+        return releaseInfo["published_at"].ToString();
+    }
+    public static bool GetUpdate()
     {
         try
         {
             // 添加User-Agent头
             client.DefaultRequestHeaders.Add("User-Agent", "YourApp-Name");
 
-            // 获取最新版本信息
-            string jsonResponse = await client.GetStringAsync(repoUrl);
-            JObject releaseInfo = JObject.Parse(jsonResponse);
+            // 获取当前程序的版本号
+            string currentVersion = GetCurrentVersion();
+            Console.WriteLine($"当前版本: {currentVersion}");
 
-            string latestVersion = releaseInfo["tag_name"].ToString();
+            // 获取最新版本信息
+            string jsonResponse = client.GetStringAsync(repoUrl).Result; 
+            releaseInfo = JObject.Parse(jsonResponse);
+
+            string latestVersion = releaseInfo["name"].ToString();
             Console.WriteLine($"最新版本: {latestVersion}");
 
             // 检查是否为当前版本
             if (latestVersion == currentVersion)
             {
-                Console.WriteLine("当前版本已是最新版本，无需更新。");
+                return false;
             }
             else
             {
-                Console.WriteLine("发现新版本，正在下载...");
-                await DownloadInstaller(releaseInfo);
+                return true;
             }
         }
-        catch (HttpRequestException ex)
+        catch
         {
-            Console.WriteLine($"发生错误: {ex.Message}");
-            Console.WriteLine("请检查以下可能的问题：");
-            Console.WriteLine("1. 确保网络连接正常，可以访问GitHub API。");
-            Console.WriteLine("2. 检查链接是否正确：{0}", repoUrl);
-            Console.WriteLine("3. 如果问题仍然存在，请稍后重试或联系GitHub支持。");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"发生错误: {ex.Message}");
+            return false;
         }
     }
-
-    private static async Task DownloadInstaller(JObject releaseInfo)
+    
+    public static async Task UpdateCore(ProgressBar bar,ContentDialog shd)
     {
         // 获取系统架构
-        string architecture = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture.ToString().ToLower();
+        string architecture = RuntimeInformation.ProcessArchitecture.ToString().ToLower();
         string installerName = GetInstallerName(architecture);
 
         if (string.IsNullOrEmpty(installerName))
@@ -68,9 +89,8 @@ class Program
         if (installerAsset != null)
         {
             string downloadUrl = installerAsset["browser_download_url"].ToString();
-            Console.WriteLine($"正在下载: {installerName}");
-            await DownloadFileAsync(downloadUrl, installerName);
-            Console.WriteLine("下载完成！");
+            Console.WriteLine($"正在下载: {installerName}"); 
+            await DownloadFileAsync(downloadUrl, installerName,bar,shd);
         }
         else
         {
@@ -93,37 +113,52 @@ class Program
         }
     }
 
-    private static async Task DownloadFileAsync(string url, string fileName)
+    private static async Task DownloadFileAsync(string url, string fileName,ProgressBar bar,ContentDialog shd)
     {
         try
         {
             var downloadOpt = new DownloadConfiguration()
             {
                 BufferBlockSize = 10240,
-                ChunkCount = 8,
-                MaximumBytesPerSecond = 1024 * 1024 * 2,
+                ChunkCount = 256,
                 MaxTryAgainOnFailover = 5,
-                MaximumMemoryBufferBytes = 1024 * 1024 * 50,
                 ParallelDownload = true,
-                ParallelCount = 4,
+                ParallelCount = 256,
                 Timeout = 1000,
                 ClearPackageOnCompletionWithFailure = true,
-                MinimumSizeOfChunking = 1024,
+                MinimumSizeOfChunking = 64,
                 ReserveStorageSpaceBeforeStartingDownload = true
             };
 
             var downloader = new DownloadService(downloadOpt);
             downloader.DownloadProgressChanged += (sender, args) =>
             {
-                Console.WriteLine($"{args.ProgressPercentage}%");
+                // 确保事件被触发
+                Console.WriteLine($"下载进度: {args.ProgressPercentage}%");
+                Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    bar.Value = args.ProgressPercentage;
+                });
             };
 
-            await downloader.DownloadFileTaskAsync(url, fileName);
-            Console.WriteLine($"文件已成功下载到: {fileName}");
+            // 确保文件路径有效
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+            Console.WriteLine($"开始下载文件到: {filePath}");
+
+            await downloader.DownloadFileTaskAsync(url, filePath);
+            Console.WriteLine($"文件已成功下载到: {filePath}");
+
+            Process.Start(filePath);
+            Task.Run(() =>
+            {
+                Thread.Sleep(3000);
+                Environment.Exit(0);
+            });
         }
         catch (Exception ex)
         {
             Console.WriteLine($"下载失败: {ex.Message}");
+            shd.Hide();
         }
     }
 }

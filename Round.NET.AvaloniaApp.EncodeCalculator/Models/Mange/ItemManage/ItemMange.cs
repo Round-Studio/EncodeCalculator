@@ -12,8 +12,14 @@ public class ItemMange
 {
     public static List<RootConfig> Items = new List<RootConfig>();
     public static ListBox ItemListBox { get; set; }
-
     public class RootConfig
+    {
+        public FuncItemConfig FuncItem { get; set; } = new FuncItemConfig();
+        public CompItemConfig CompItem { get; set; } = new CompItemConfig();
+        public Type.Type.NodeType Type { get; set; } = Models.Type.Type.NodeType.Function;
+    }
+
+    public class FuncItemConfig
     {
         public string Value
         {
@@ -26,9 +32,58 @@ public class ItemMange
                 Item.ValueBox.Text = value;
             }
         }
-
         public string ClassicValue { get; set; } = string.Empty;
-
+        public string Name
+        {
+            get
+            {
+                return Item.Name;
+            }
+            set
+            {
+                Item.NameBox.Content = value;
+                Item.Name = value;
+            }
+        }
+        public string Note
+        {
+            get
+            {
+                return Item.Note;
+            }
+            set
+            {
+                Item.Note = value;
+            }
+        }
+        public UnitItem Item { get; set; } = new UnitItem();
+        public bool IsMain { get; set; } = false;
+        public string UUID { get; set; }
+    }
+    
+    public class CompItemConfig
+    {
+        public string Value1
+        {
+            get
+            {
+                return Item.Value1;
+            }
+            set
+            {
+                Item.Value1 = value;
+            }
+        }
+        public string Value2 { 
+            get
+            {
+                return Item.Value2;
+            }
+            set
+            {
+                Item.Value2 = value;
+            } 
+        }
         public string Name
         {
             get
@@ -51,20 +106,22 @@ public class ItemMange
                 Item.Note = value;
             }
         }
-        public UnitItem Item { get; set; } = new UnitItem();
         public string UUID { get; set; }
-        public Type.Type.NodeType Type { get; set; } = Models.Type.Type.NodeType.Function;
-        public bool IsMain { get; set; } = false;
+        public ComparisonItem Item { get; set; } = new ComparisonItem();
+        public Type.Type.CompareTypes CompareType = Type.Type.CompareTypes.Equals;
     }
-
-    public static void AddFuncItem(RootConfig config)
+    public static void AddFuncItem(FuncItemConfig config)
     {
         if (!Deduplication.DeduplicationItem(config.Name))
         {
             var Guid = new Guid();
             config.UUID = Guid.NewGuid().ToString();
             config.Item.uuid = config.UUID;
-            Items.Add(config);
+            Items.Add(new RootConfig()
+            {
+                FuncItem = config,
+                Type = Models.Type.Type.NodeType.Function
+            });
             config.Item.NameBox.Content = config.Name;
             config.Item.IsMain = config.IsMain;
             config.Item.ValueBox.Text = config.Value;
@@ -85,9 +142,23 @@ public class ItemMange
             });
         }
     }
-    public static void AddCompItem() // 未完成!!!!!!!!!!!!!!!!!!!!!!!
+    public static void AddCompItem(CompItemConfig compItemConfig) // 未完成!!!!!!!!!!!!!!!!!!!!!!!
     {
-        ItemListBox.Items.Add(new ComparisonItem());
+        var Guid = new Guid();
+        compItemConfig.UUID = Guid.NewGuid().ToString();
+        compItemConfig.Item = new ComparisonItem();
+        compItemConfig.Item.uuid = compItemConfig.UUID;
+        compItemConfig.Item.Name = compItemConfig.Name;
+        compItemConfig.Item.Note = compItemConfig.Note;
+        compItemConfig.Item.Value1 = compItemConfig.Value1;
+        compItemConfig.Item.Value2 = compItemConfig.Value2;
+        Items.Add(new RootConfig()
+        {
+            CompItem = compItemConfig,
+            Type = Models.Type.Type.NodeType.Comparison
+        });
+        
+        ItemListBox.Items.Add(compItemConfig.Item);
     }
 
     public static void ClearItems()
@@ -100,9 +171,9 @@ public class ItemMange
     {
         foreach (var item in Items)
         {
-            if (item.UUID == uuid)
+            if (item.FuncItem.UUID == uuid)
             {
-                return item.Item;
+                return item.FuncItem.Item;
             }
         }
         return null;
@@ -111,9 +182,9 @@ public class ItemMange
     {
         foreach (var it in Items)
         {
-            if (it.Name == name)
+            if (it.FuncItem.Name == name)
             {
-                return it.Value;
+                return it.FuncItem.Value;
             }
         }
         return String.Empty;
@@ -122,9 +193,9 @@ public class ItemMange
     {
         foreach (var it in Items)
         {
-            if (it.UUID == uuid)
+            if (it.FuncItem.UUID == uuid)
             {
-                return it.Value;
+                return it.FuncItem.Value;
             }
         }
         return String.Empty;
@@ -134,9 +205,9 @@ public class ItemMange
     {
         foreach (var it in Items)
         {
-            if (it.UUID == uuid)
+            if (it.FuncItem.UUID == uuid)
             {
-                ItemListBox.Items.Remove(it.Item);
+                ItemListBox.Items.Remove(it.FuncItem.Item);
                 Items.Remove(it);
                 break;
             }
@@ -147,9 +218,9 @@ public class ItemMange
     {
         foreach(var item in Items)
         {
-            if (item.UUID == uuid)
+            if (item.FuncItem.UUID == uuid)
             {
-                item.Name = name;
+                item.FuncItem.Name = name;
             }
         }
     }
@@ -158,9 +229,9 @@ public class ItemMange
     {
         foreach(var item in Items)
         {
-            if (item.UUID == uuid)
+            if (item.FuncItem.UUID == uuid)
             {
-                return item.Name;
+                return item.FuncItem.Name;
             }
         }
         return String.Empty;
@@ -170,7 +241,7 @@ public class ItemMange
     {
         foreach (var it in Items)
         {
-            if (it.UUID == uuid)
+            if (it.FuncItem.UUID == uuid)
             {
                 return it;
             }

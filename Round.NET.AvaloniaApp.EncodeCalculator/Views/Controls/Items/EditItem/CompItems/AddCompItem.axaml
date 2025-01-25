@@ -24,7 +24,7 @@
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Width="90" VerticalAlignment="Center">条件判断：</Label>
-                <ComboBox Name="ValueBox3" Height="32" HorizontalAlignment="Stretch" SelectedIndex="0">
+                <ComboBox Name="CompareTypeBox" Height="32" HorizontalAlignment="Stretch" SelectedIndex="0">
                     <ComboBoxItem>==</ComboBoxItem>
                     <ComboBoxItem>!=</ComboBoxItem>
                     <ComboBoxItem>&gt;=</ComboBoxItem>

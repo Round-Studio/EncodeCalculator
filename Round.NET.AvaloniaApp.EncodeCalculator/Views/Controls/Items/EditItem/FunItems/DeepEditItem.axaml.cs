@@ -43,13 +43,13 @@ public partial class DeepEditItem : UserControl
 
         foreach (var item in ItemMange.Items)
         {
-            if (!item.IsMain)
+            if (!item.FuncItem.IsMain)
             {
                 var aditem = new ComboBoxItem()
                 {
-                    Content = $"{item.Name}()"
+                    Content = $"{item.FuncItem.Name}()"
                 };
-                if(item.Name == ThisUnitItem.Name) aditem.IsEnabled = false;
+                if(item.FuncItem.Name == ThisUnitItem.Name) aditem.IsEnabled = false;
                 FuncBox.Items.Add(aditem);
             }
         }
