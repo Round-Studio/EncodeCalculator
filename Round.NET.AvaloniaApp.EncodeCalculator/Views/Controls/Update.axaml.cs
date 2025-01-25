@@ -14,6 +14,6 @@ public partial class Update : UserControl
         VersionBox.Content = VersionBox.Content.ToString().Replace("{UpdateVersion}",Models.Update.Update.GetNewVersion());
         TimeBox.Content = TimeBox.Content.ToString().Replace("{UpdateTime}",Models.Update.Update.GetNewVersionTime());
         ThisVersionBox.Content = ThisVersionBox.Content.ToString().Replace("{Version}",Models.Update.Update.GetCurrentVersion());
-        Models.Update.Update.UpdateCore(ProgressBarBox,(ContentDialog)this.Parent);  
+        Models.Update.Update.UpdateCore(ProgressBarBox,(ContentDialog)this.Parent,jd);  
     }
 }

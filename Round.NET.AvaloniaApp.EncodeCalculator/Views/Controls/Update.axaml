@@ -11,6 +11,7 @@
             <Label Name="ThisVersionBox">当前版本：{Version}</Label>
             <Label Name="VersionBox">更新版本：{UpdateVersion}</Label>
             <Label Name="TimeBox">更新时间：{UpdateTime}</Label>
+            <Label Name="jd">进度：0%</Label>
             <ProgressBar Name="ProgressBarBox" Margin="5"></ProgressBar>
         </StackPanel>
     </Grid>

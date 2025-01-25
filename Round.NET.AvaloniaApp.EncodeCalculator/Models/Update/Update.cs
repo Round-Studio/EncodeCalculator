@@ -25,12 +25,12 @@ public class Update
         // 获取当前程序的版本号
         Assembly assembly = Assembly.GetExecutingAssembly();
         FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-        return $"v{fvi.ProductVersion.Split('+')[0]}";
+        return $"v{fvi.ProductVersion.Split('+')[0].Replace(".","")}";
     }
 
     public static string GetNewVersion()
     {
-        return releaseInfo["name"].ToString();
+        return releaseInfo["name"].ToString().Replace(".","");
     }
     public static string GetNewVersionTime()
     {
@@ -51,11 +51,8 @@ public class Update
             string jsonResponse = client.GetStringAsync(repoUrl).Result; 
             releaseInfo = JObject.Parse(jsonResponse);
 
-            string latestVersion = releaseInfo["name"].ToString();
-            Console.WriteLine($"最新版本: {latestVersion}");
-
             // 检查是否为当前版本
-            if (latestVersion == currentVersion)
+            if (GetNewVersion().Replace(".","") == GetCurrentVersion().Replace(".",""))
             {
                 return false;
             }
@@ -70,7 +67,7 @@ public class Update
         }
     }
     
-    public static async Task UpdateCore(ProgressBar bar,ContentDialog shd)
+    public static async Task UpdateCore(ProgressBar bar,ContentDialog shd,Label jd)
     {
         // 获取系统架构
         string architecture = RuntimeInformation.ProcessArchitecture.ToString().ToLower();
@@ -90,7 +87,7 @@ public class Update
         {
             string downloadUrl = installerAsset["browser_download_url"].ToString();
             Console.WriteLine($"正在下载: {installerName}"); 
-            await DownloadFileAsync(downloadUrl, installerName,bar,shd);
+            await DownloadFileAsync(downloadUrl, installerName,bar,shd,jd);
         }
         else
         {
@@ -113,20 +110,20 @@ public class Update
         }
     }
 
-    private static async Task DownloadFileAsync(string url, string fileName,ProgressBar bar,ContentDialog shd)
+    private static async Task DownloadFileAsync(string url, string fileName,ProgressBar bar,ContentDialog shd,Label jd)
     {
         try
         {
             var downloadOpt = new DownloadConfiguration()
             {
                 BufferBlockSize = 10240,
-                ChunkCount = 256,
+                ChunkCount = 64,
                 MaxTryAgainOnFailover = 5,
                 ParallelDownload = true,
                 ParallelCount = 10,
                 Timeout = 1000,
                 ClearPackageOnCompletionWithFailure = true,
-                MinimumSizeOfChunking = 64,
+                MinimumSizeOfChunking = 1024,
                 ReserveStorageSpaceBeforeStartingDownload = true
             };
 
@@ -134,10 +131,11 @@ public class Update
             downloader.DownloadProgressChanged += (sender, args) =>
             {
                 // 确保事件被触发
-                Console.WriteLine($"下载进度: {args.ProgressPercentage}%");
+                // Console.WriteLine($"下载进度: {args.ProgressPercentage}%");
                 Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     bar.Value = args.ProgressPercentage;
+                    jd.Content = $"进度：{args.ProgressPercentage}%";
                 });
             };
 
