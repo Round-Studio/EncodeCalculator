@@ -140,7 +140,8 @@ public class Update
             };
 
             // 确保文件路径有效
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+            Directory.CreateDirectory("Update");
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), $"Update/{GetNewVersion()}{fileName}");
             Console.WriteLine($"开始下载文件到: {filePath}");
 
             if (Config.Config.MainConfig.UpdateChannelAcceleration)
