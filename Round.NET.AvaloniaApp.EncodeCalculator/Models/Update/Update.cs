@@ -116,15 +116,15 @@ public class Update
         {
             var downloadOpt = new DownloadConfiguration()
             {
-                BufferBlockSize = 10240,
-                ChunkCount = 64,
-                MaxTryAgainOnFailover = 5,
-                ParallelDownload = true,
-                ParallelCount = 10,
+                //BufferBlockSize = 1024,
+                //ChunkCount = 256,
+                //MaxTryAgainOnFailover = 5,
+                //ParallelDownload = true,
+                //ParallelCount = 256,
                 Timeout = 1000,
-                ClearPackageOnCompletionWithFailure = true,
-                MinimumSizeOfChunking = 1024,
-                ReserveStorageSpaceBeforeStartingDownload = true
+                //ClearPackageOnCompletionWithFailure = true,
+                //MinimumSizeOfChunking = 1024,
+                //ReserveStorageSpaceBeforeStartingDownload = true
             };
 
             var downloader = new DownloadService(downloadOpt);
@@ -143,13 +143,20 @@ public class Update
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
             Console.WriteLine($"开始下载文件到: {filePath}");
 
-            await downloader.DownloadFileTaskAsync(url, filePath);
+            if (Config.Config.MainConfig.UpdateChannelAcceleration)
+            {
+                await downloader.DownloadFileTaskAsync($"https://gh.api.99988866.xyz/{url}", filePath);
+            }
+            else
+            {
+                await downloader.DownloadFileTaskAsync($"{url}", filePath);
+            }
             Console.WriteLine($"文件已成功下载到: {filePath}");
 
             Process.Start(filePath);
             Task.Run(() =>
             {
-                Thread.Sleep(3000);
+                Thread.Sleep(800);
                 Environment.Exit(0);
             });
         }

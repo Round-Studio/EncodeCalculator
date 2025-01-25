@@ -18,6 +18,7 @@ public class Config
             true,
             true
         };
+        public bool UpdateChannelAcceleration { get; set; } = true;
     }
 
     public static void LoadConfig()

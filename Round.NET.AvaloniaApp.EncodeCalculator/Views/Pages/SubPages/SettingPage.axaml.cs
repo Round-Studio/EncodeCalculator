@@ -32,6 +32,7 @@ public partial class SettingPage : UserControl
         Suc.IsChecked = _config.MessageModel[2];
         
         FontSizeBar.Value = _config.OutBoxFontSize;
+        UpdateChannelAccelerationBox.IsChecked = _config.UpdateChannelAcceleration;
     }
 
     public void GetConfig()
@@ -41,6 +42,7 @@ public partial class SettingPage : UserControl
         _config.MessageModel[2] = (bool)Suc.IsChecked;
         
         _config.OutBoxFontSize = (int)FontSizeBar.Value;
+        _config.UpdateChannelAcceleration = (bool)UpdateChannelAccelerationBox.IsChecked;
     }
     
     public SettingPage()
