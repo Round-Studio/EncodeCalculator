@@ -29,6 +29,9 @@ public partial class MainWindow : AppWindow
         TaskCore.InitTaskCore();
         
         InitializeComponent();
+        RenderOptions.SetTextRenderingMode(this, TextRenderingMode.SubpixelAntialias); // 字体渲染模式
+        RenderOptions.SetBitmapInterpolationMode(this, BitmapInterpolationMode.MediumQuality); // 图片渲染模式
+        RenderOptions.SetEdgeMode(this, EdgeMode.Antialias); // 形状渲染模式
         if (Config.MainConfig.AutomaticUpdates)
         {
             UpdateFunc();
