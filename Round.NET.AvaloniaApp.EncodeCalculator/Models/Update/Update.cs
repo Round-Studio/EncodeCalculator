@@ -157,7 +157,7 @@ public class Update
             Process.Start(filePath);
             Task.Run(() =>
             {
-                Thread.Sleep(800);
+                Thread.Sleep(100);
                 Environment.Exit(0);
             });
         }

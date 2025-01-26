@@ -142,7 +142,7 @@ namespace Round.NET.AvaloniaApp.EncodeCalculator.Models.Update
 
                 Task.Run(() =>
                 {
-                    Thread.Sleep(800);
+                    Thread.Sleep(100);
                     Environment.Exit(0);
                 });
             }
