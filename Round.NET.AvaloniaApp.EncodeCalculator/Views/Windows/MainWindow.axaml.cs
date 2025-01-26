@@ -1,20 +1,26 @@
 ﻿using System;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
+using Avalonia.Media;
+using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using EncodeCalculator.SuffixExpressionsCalculating;
 using FluentAvalonia.UI.Controls;
+using FluentAvalonia.UI.Windowing;
+using ReactiveUI;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.Config;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.ItemManage.ProjectMange;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.Mange.TaskMange;
 using Round.NET.AvaloniaApp.EncodeCalculator.Models.Update;
+using Round.NET.AvaloniaApp.EncodeCalculator.Views.Pages;
 
 namespace Round.NET.AvaloniaApp.EncodeCalculator.Views;
 
-public partial class MainWindow : Window
+public partial class MainWindow : AppWindow
 {
     public WindowNotificationManager? _manager;
     public MainWindow()
@@ -27,7 +33,7 @@ public partial class MainWindow : Window
         {
             UpdateFunc();
         }
-
+        
         // BackUpdate.RefreshUpdateConfig();
         
         _manager = new WindowNotificationManager(this)

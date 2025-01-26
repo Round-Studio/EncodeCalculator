@@ -8,7 +8,7 @@
              xmlns:controls1="clr-namespace:HeroIconsAvalonia.Controls;assembly=HeroIconsAvalonia"
              x:Class="Round.NET.AvaloniaApp.EncodeCalculator.Views.MainView">
     <Grid>
-         <Border Background="rgb(40,40,40)" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,10,350,10" CornerRadius="6">
+        <Border Background="rgb(40,40,40)" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,10,350,10" CornerRadius="6">
              <DockPanel Height="40">
                  <Image Source="../../Assets/Icon.png" Margin="8"></Image>
                  <Menu HorizontalAlignment="Stretch" VerticalAlignment="Center">

@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-
+using ReactiveUI;
 using Round.NET.AvaloniaApp.EncodeCalculator.Views;
 
 namespace Round.NET.AvaloniaApp.EncodeCalculator;
@@ -23,7 +23,6 @@ public partial class App : Application
         {
             singleViewPlatform.MainView = new MainWindow();
         }
-
         base.OnFrameworkInitializationCompleted();
     }
 }

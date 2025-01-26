@@ -15,5 +15,5 @@
         x:Class="Round.NET.AvaloniaApp.EncodeCalculator.Views.MainWindow"
         Icon="/Assets/Icon.ico"
         Title="REC - 可编码计算器">
-        <views:MainView />
+        <pages:LoadPage />
 </Window>

@@ -27,6 +27,8 @@ public partial class LoadPage : UserControl
                 // 使用HttpClient获取JSON文件内容
                 using HttpClient client = new HttpClient();
                 string jsonString = client.GetStringAsync(url).Result;
+                
+                Console.WriteLine(jsonString);
             }
             catch (Exception ex)
             {
