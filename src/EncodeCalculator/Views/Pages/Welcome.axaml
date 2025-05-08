@@ -1,0 +1,20 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="EncodeCalculator.Views.Pages.Welcome">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15" FontSize="25" FontWeight="Bold">Encode Calculator</TextBlock>
+        <DockPanel Margin="15,50,80,0">
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="5">
+                <TextBlock Margin="5">最近打开的内容</TextBlock>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="5">
+                <TextBlock Margin="5">开始使用</TextBlock>
+                <Button Margin="5" Width="230" Height="60">新建项目</Button>
+                <Button Margin="5" Width="230" Height="60">打开项目</Button>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</UserControl>
